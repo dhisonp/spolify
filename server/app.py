@@ -36,6 +36,7 @@ def check_auth():
 
 @app.route('/')
 def index():
+    # TODO Integrate with Front-End
     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
     auth_manager = spotipy.oauth2.SpotifyOAuth(scope=scope,
                                                cache_handler=cache_handler,
@@ -57,6 +58,7 @@ def index():
     return f'<h2>Hi {spotify.me()["display_name"]}, ' \
            f'<small><a href="/sign_out">[sign out]<a/></small></h2>' \
            f'<a href="/saved">saved songs</a> | ' \
+           f'<a href="/auto_recommend">auto recommend</a> | ' \
            f'<a href="/top_tracks">my top tracks</a> | ' \
         # f'<a href="/current_user">me</a>' \
 
@@ -86,11 +88,47 @@ def saved():
 @ app.route("/top_tracks")
 def top_tracks():
     sp = check_auth()
-    results = sp.current_user_top_tracks(5, 0, "medium_term")
+    results = sp.current_user_top_tracks(12, 0, "medium_term")
+    # NOTE Cleaner Data:
     table = []
-    for idx, track in enumerate((results['items'])):
+    for idx, track in enumerate(results['items']):
         obj = {
             "index": idx + 1,
+            "id": track['id'],
+            "artist": track['artists'][0]['name'],
+            "track_name": track['name'],
+            # "genre": track['genre']
+        }
+        table.append(obj)
+    # return jsonify(table)
+    return results['items']
+
+
+@ app.route("/auto_recommend")
+def auto_recommend():
+    sp = check_auth()
+
+    seed_tracks, seed_artists, seed_genres = [], [], []
+    # Get user top tracks
+    top_tracks = sp.current_user_top_tracks(5, 0, "medium_term")['items']
+    # Append seeds to seed list
+    for track in top_tracks:
+        seed_tracks.append(track['id'])
+        # TODO seed_genres.append()
+        # seed_artists.append(track['artists'][0]['id'])
+
+    # Recommendation API
+    # NOTE Maximum of 5 seeds COMBINED (Genres + Tracks + Artists)
+    # TODO Attributes like popularity, etc.
+    results = sp.recommendations(
+        limit=10,
+        seed_tracks=seed_tracks,
+    )
+    table = []
+    for idx, track in enumerate(results['tracks']):
+        obj = {
+            "index": idx + 1,
+            "id": track['id'],
             "artist": track['artists'][0]['name'],
             "track_name": track['name']
         }
