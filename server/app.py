@@ -17,14 +17,6 @@ load_dotenv()
 # Define scopes
 scope = "user-library-read user-read-currently-playing playlist-modify-private user-top-read"
 
-# TODO Implement login screen
-# SEE ./example/app.py
-# sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,
-#                                                client_secret=CLIENT_SECRET,
-#                                                redirect_uri=REDIRECT_URI,
-#                                                scope=scope))
-
-
 def check_auth():
     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
     auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)
@@ -100,7 +92,6 @@ def top_tracks():
             # "genre": track['genre']
         }
         table.append(obj)
-    # return jsonify(table)
     return results['items']
 
 
