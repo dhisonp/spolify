@@ -26,11 +26,12 @@ def auto_recommend():
     )
     table = []
     for idx, track in enumerate(results['tracks']):
-        obj = {
-            "index": idx + 1,
-            "id": track['id'],
-            "artist": track['artists'][0]['name'],
-            "track_name": track['name']
-        }
-        table.append(obj)
+        # NOTE 'clean' format for dev
+        # obj = {
+        #     "index": idx + 1,
+        #     "id": track['id'],
+        #     "artist": track['artists'][0]['name'],
+        #     "track_name": track['name']
+        # }
+        table.append(track['id'])
     return jsonify(table)

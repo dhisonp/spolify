@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 import spotipy
 from check_auth import check_auth
 
@@ -19,4 +19,4 @@ def top_tracks():
             # "genre": track['genre']
         }
         table.append(obj)
-    return results['items']
+    return jsonify(table)

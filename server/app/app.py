@@ -10,12 +10,14 @@ from check_auth import check_auth
 from saved import saved_bp
 from top_tracks import top_tracks_bp
 from auto_recommend import auto_recommend_bp
+from create_playlist import create_playlist_bp
 
 # App and Blueprints
 app = Flask(__name__)
 app.register_blueprint(saved_bp)
 app.register_blueprint(top_tracks_bp)
 app.register_blueprint(auto_recommend_bp)
+app.register_blueprint(create_playlist_bp)
 # Environment/Session Variables
 app.config['SECRET_KEY'] = urandom(64)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -24,8 +26,8 @@ Session(app)
 
 # Load .env
 load_dotenv()
-# Define scopes
-scope = "user-library-read user-read-currently-playing playlist-modify-private user-top-read"
+# Define scopes TODO Organize
+scope = "user-library-read user-read-currently-playing playlist-modify-private user-top-read playlist-modify-public"
 
 
 @app.route('/')
@@ -50,10 +52,11 @@ def index():
     # Step 3. Signed in, display data
     spotify = spotipy.Spotify(auth_manager=auth_manager)
     return f'<h2>Hi {spotify.me()["display_name"]}, ' \
-           f'<small><a href="/sign_out">[sign out]<a/></small></h2>' \
-           f'<a href="/saved">saved songs</a> | ' \
-           f'<a href="/auto_recommend">auto recommend</a> | ' \
-           f'<a href="/top_tracks">my top tracks</a> | ' \
+        f'<small><a href="/sign_out">[sign out]<a/></small></h2>' \
+        f'<a href="/saved">saved songs</a> | ' \
+        f'<a href="/auto_recommend">auto recommend</a> | ' \
+        f'<a href="/top_tracks">my top tracks</a> | ' \
+        f'<a href="/create_playlist">create playlist</a> | ' \
         # f'<a href="/current_user">me</a>' \
 
 
