@@ -15,19 +15,21 @@ def create_playlist():
     is_public = True
     is_collaborative = False
     created, result = None, None
-    # TODO Fix description
-    description = 'Playlist created with Spolify.'
+    # TODO Fix -> description = 'Playlist created with Spolify.'
     try:
         created = sp.user_playlist_create(user_id, playlist_name,
                                           public=is_public, collaborative=is_collaborative)
     except SpotifyException as err:
         error(err)
     try:
+        # TODO Pass the playlist JSON as a function parameter
         # auto_recommend() returns a Flask object. Use get_data(as_text=True) to get the JSON
         # in string format for processing.
         recommendation = json.loads(auto_recommend().get_data(as_text=True))
+        recommendation = [item['id'] for item in recommendation]
         playlist_id = created['id']
-        result = sp.playlist_add_items(playlist_id, recommendation, position=None)
+        result = sp.playlist_add_items(
+            playlist_id, recommendation, position=None)
     except SpotifyException as err:
         error(err)
     return "URL: " + created['external_urls']['spotify']
