@@ -6,6 +6,9 @@ from auto_recommend import auto_recommend
 
 create_playlist_bp = Blueprint('create_playlist', __name__)
 
+# TODO Takes parameters from the results of recommend() and auto_recommend()
+# instead of coded into the function.
+
 
 @ create_playlist_bp.route("/create_playlist")
 def create_playlist():
@@ -16,7 +19,7 @@ def create_playlist():
     is_collaborative = False
     created, result = None, None
     # TODO Fix -> description = 'Playlist created with Spolify.'
-    try:
+    try:  # Create a new playlist
         created = sp.user_playlist_create(user_id, playlist_name,
                                           public=is_public, collaborative=is_collaborative)
     except SpotifyException as err:

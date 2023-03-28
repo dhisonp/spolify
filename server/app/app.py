@@ -60,7 +60,8 @@ def index():
         f'<a href="/auto_recommend">auto recommend</a> | ' \
         f'<a href="/top_tracks">my top tracks</a> | ' \
         f'<a href="/create_playlist">create playlist</a> | ' \
-        f'<span>Note: "standard recommend" is currently hardcoded. Please test the other features.</span>'
+        f'<span><br/>Note: "standard recommend" is currently hardcoded. Please test the other features.</span>' \
+        f'<span><br/>"create playlist" generates a playlist, tracks recommended based on user top items</span>'
         # f'<a href="/current_user">me</a>' \
 
 
