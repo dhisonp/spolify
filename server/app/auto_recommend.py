@@ -4,6 +4,7 @@ from check_auth import check_auth
 
 auto_recommend_bp = Blueprint('auto_recommend', __name__)
 
+
 @ auto_recommend_bp.route("/auto_recommend")
 def auto_recommend():
     sp = check_auth()
@@ -16,7 +17,6 @@ def auto_recommend():
         seed_tracks.append(track['id'])
         # TODO seed_genres.append()
         # seed_artists.append(track['artists'][0]['id'])
-
     # Recommendation API
     # NOTE Maximum of 5 seeds COMBINED (Genres + Tracks + Artists)
     # TODO Attributes like popularity, etc.
@@ -26,10 +26,10 @@ def auto_recommend():
     )
     table = []
     for idx, track in enumerate(results['tracks']):
-        # NOTE 'clean' format for dev
         obj = {
             "index": idx + 1,
             "id": track['id'],
+            "url": track['external_urls']['spotify'],
             "artist": track['artists'][0]['name'],
             "track_name": track['name']
         }

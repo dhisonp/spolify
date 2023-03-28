@@ -9,6 +9,7 @@ from check_auth import check_auth
 # Import Blueprint
 from saved import saved_bp
 from top_tracks import top_tracks_bp
+from recommend import recommend_bp
 from auto_recommend import auto_recommend_bp
 from create_playlist import create_playlist_bp
 
@@ -16,6 +17,7 @@ from create_playlist import create_playlist_bp
 app = Flask(__name__)
 app.register_blueprint(saved_bp)
 app.register_blueprint(top_tracks_bp)
+app.register_blueprint(recommend_bp)
 app.register_blueprint(auto_recommend_bp)
 app.register_blueprint(create_playlist_bp)
 # Environment/Session Variables
@@ -54,9 +56,11 @@ def index():
     return f'<h2>Hi {spotify.me()["display_name"]}, ' \
         f'<small><a href="/sign_out">[sign out]<a/></small></h2>' \
         f'<a href="/saved">saved songs</a> | ' \
+        f'<a href="/recommend">standard recommend</a> | ' \
         f'<a href="/auto_recommend">auto recommend</a> | ' \
         f'<a href="/top_tracks">my top tracks</a> | ' \
         f'<a href="/create_playlist">create playlist</a> | ' \
+        f'<span>Note: "standard recommend" is currently hardcoded. Please test the other features.</span>'
         # f'<a href="/current_user">me</a>' \
 
 
