@@ -1,0 +1,10 @@
+Notes on first time Dockerizing Flask and Spotipy API:
+
+1.  Don't forget to adjust CMD in Dockerfile to:
+        CMD ["flask", "run", "--host", "0.0.0.0"]
+    This is to ensure the server accepts requests from all hosts.
+2.  Adjust environment variables to match e.g. SPOTIFY_REDIRECT_URI="http://0.0.0.0:PORT",
+    where PORT is whatever the port you use in
+        docker run -p PORT:XXXX <image>
+3.  You do NOT need to install venv and all that. Just install the dependencies from
+    requirements.txt directly to the image/server.
