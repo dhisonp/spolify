@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, session, request, redirect
+from flask_cors import CORS
 from flask_session import Session
 from os import environ, urandom
 from dotenv import load_dotenv
@@ -15,6 +16,7 @@ from create_playlist import create_playlist_bp
 
 # App and Blueprints
 app = Flask(__name__)
+CORS(app)
 app.register_blueprint(saved_bp)
 app.register_blueprint(top_tracks_bp)
 app.register_blueprint(recommend_bp)
@@ -30,6 +32,38 @@ Session(app)
 load_dotenv()
 # Define scopes TODO Organize
 scope = "user-library-read user-read-currently-playing playlist-modify-private user-top-read playlist-modify-public"
+
+
+@app.route('/login')
+def login():
+    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
+    auth_manager = spotipy.oauth2.SpotifyOAuth(scope=scope,
+                                               cache_handler=cache_handler,
+                                               show_dialog=True
+                                               )
+    if request.args.get("code"):
+        # Step 2. Being redirected from Spotify auth page
+        auth_manager.get_access_token(request.args.get("code"))
+        return redirect('/')
+    if not auth_manager.validate_token(cache_handler.get_cached_token()):
+        # Step 1. Display sign in link when no token
+        auth_url = auth_manager.get_authorize_url()
+        return jsonify(auth_url)
+
+
+@app.route('/logout')
+def logout():
+    return jsonify(message='Logged out'), 200
+
+
+@app.route('/user')
+def get_user():
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth())
+    try:
+        user_data = sp.me()
+        return jsonify(user_data)
+    except spotipy.SpotifyException:
+        return jsonify(error='Not logged in'), 401
 
 
 @app.route('/')
@@ -62,7 +96,7 @@ def index():
         f'<a href="/create_playlist">create playlist</a> | ' \
         f'<span><br/>Note: "standard recommend" is currently hardcoded. Please test the other features.</span>' \
         f'<span><br/>"create playlist" generates a playlist, tracks recommended based on user top items</span>'
-        # f'<a href="/current_user">me</a>' \
+    # f'<a href="/current_user">me</a>' \
 
 
 @app.route('/sign_out')
