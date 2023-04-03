@@ -1,8 +1,8 @@
-# –– PROJECT IS UNDER DEVELOPMENT ––
-Current progress: Finishing off backend
+### Project is under development!
+Current progress: frontend
 
 # Spolify - Playlist Generator and Song Recommender
-Transform your music listening experience with Spolify - the ultimate playlist generator. Personalize your music with adjustable settings and create playlists from your Spotify listening history. Built with cutting-edge technology, including Next.js, Flask, and PostgreSQL, Spolify offers a seamless and personalized music experience for music lovers everywhere.
+Transform your music listening experience with Spolify - the ultimate playlist generator. Personalize your music with adjustable settings and create tailored playlists. Built with modern tech stack, including Next.js, Flask, and PostgreSQL, Spolify offers a seamless and personalized music experience for music lovers everywhere.
 
 Freedom and full control to your ears.
 
@@ -15,8 +15,9 @@ Freedom and full control to your ears.
 - PostgreSQL
 - Spotipy
 ### Deployment
+- Docker
 - Vercel
-- AWS
+- DigitalOcean
 
 ## Stories:
 ### User:
