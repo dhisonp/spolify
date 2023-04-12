@@ -8,26 +8,27 @@ const Main = () => {
 
     const server = process.env.SERVER_URL;
 
-    useEffect(() => {
-        // async function fetchData() {
-        //     const response = await fetch(server + "/user");
-        //     if (response.status === 200) {
-        //         const data = await response.json();
-        //         setUserData(data);
-        //         setLoggedIn(true);
-        //     }
-        // }
-        // fetchData();
-        axios
-            .get(server + "/user")
-            .then((res) => {
-                setUserData(res.data);
-                setLoggedIn(true);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+    // Check if user is logged in
+    // useEffect(() => {
+    //     // async function fetchData() {
+    //     //     const response = await fetch(server + "/user");
+    //     //     if (response.status === 200) {
+    //     //         const data = await response.json();
+    //     //         setUserData(data);
+    //     //         setLoggedIn(true);
+    //     //     }
+    //     // }
+    //     // fetchData();
+    //     axios
+    //         .get(server + "/user")
+    //         .then((res) => {
+    //             setUserData(res.data);
+    //             setLoggedIn(true);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }, []);
 
     const handleLogout = async () => {
         try {
@@ -42,7 +43,6 @@ const Main = () => {
     };
 
     const handleDebug = () => {
-        console.log(userData);
     };
 
     return (
@@ -53,9 +53,6 @@ const Main = () => {
                         <h3 className="text-4xl m-2">
                             Welcome, <a>{userData.display_name}</a>!
                         </h3>
-                        <Button onClick={handleDebug}>
-                            Console Log User Data
-                        </Button>
                         <Button onClick={handleLogout}>Logout</Button>
                     </>
                 ) : (
