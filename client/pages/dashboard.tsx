@@ -42,16 +42,22 @@ const Dashboard = () => {
           <div className="px-6 py-3 h-auto flex flex-row items-center justify-center my-2">
             <div className="mr-6">
               <img
-                className="w-36 h-36 rounded-full border border-stone-200"
+                className="w-28 h-28 rounded-full border border-stone-200"
                 src={tempData.user.imgUrl}
               />
             </div>
-            <span className="font-bold text-6xl text-fuchsia-950">
-              {tempData.user.name}
-            </span>
+            <div className="flex flex-col">
+              <span className="text-gray-500 text-base">Welcome, </span>
+              <h1 className="font-bold text-4xl text-fuchsia-950">
+                {tempData.user.name}
+              </h1>
+            </div>
           </div>
           <div className="my-2 text-lg px-6 py-3 w-auto h-12 flex flex-row items-center justify-between">
-          <Button onClick={handleOnClickCustomGenerate} className="border-red-700 hover:bg-red-700 text-red-700">
+            <Button
+              onClick={handleOnClickCustomGenerate}
+              className="border-red-700 hover:bg-red-700 text-red-700"
+            >
               &larr; Log Out
             </Button>
             <Button onClick={handleOnClickAutoGenerate}>

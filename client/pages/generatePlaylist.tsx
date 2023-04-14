@@ -33,6 +33,7 @@ const GeneratePlaylist = () => {
     isIndie: false,
     size: 15,
   });
+  const [displayHelper, toggleHelper] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
@@ -71,6 +72,18 @@ const GeneratePlaylist = () => {
     router.back();
   };
 
+  const handleGuide = () => {
+    toggleHelper(true);
+  };
+
+  const operationGuideString = {
+    p1: `Operation Guide `,
+    p2: "1. Paste the links to an artist/song you like.",
+    p3: "2. You can put in up to 5 in total of either artists or songs.",
+    p4: "3. Feel free to play with some of the advanced options, like 'Acoustic' and 'Unpopular;.",
+    p5: "4. Press 'Generate' and you will be redirected to your new playlist!",
+  };
+
   return (
     <div className=" bg-stone-100 mx-auto w-screen font-mono text-gray-900">
       <Head>
@@ -80,20 +93,20 @@ const GeneratePlaylist = () => {
 
       <main className="flex flex-col items-center justify-center min-h-screen py-2">
         <div className="container w-2/3">
-          <div className="text-gray-600 mb-2 text-center italic">
-            <p>Operation Guide:</p>
-            <p>1. Paste the links to an artist/song you like.</p>
-            <p>
-              2. You can put in up to 5 in total of either artists or songs.
-            </p>
-            <p>
-              3. Feel free to play with some of the advanced options, like
-              'Acoustic' and 'Unpopular'.
-            </p>
-            <p>
-              4. Press 'Generate' and you will be redirected to your new
-              playlist!
-            </p>
+          <div className="text-gray-500 mb-3 text-center italic">
+            <button onClick={handleGuide}>
+              <p className="text-gray-500 italic text-lg hover:text-gray-400 mb-1">
+                {operationGuideString.p1}&rarr;
+              </p>
+            </button>
+            {displayHelper && (
+              <div className="transition duration-200">
+                <p>{operationGuideString.p2}</p>
+                <p>{operationGuideString.p3}</p>
+                <p>{operationGuideString.p4}</p>
+                <p>{operationGuideString.p5}</p>
+              </div>
+            )}
           </div>
           <form
             className="flex flex-col justify-center items-center"
@@ -110,7 +123,9 @@ const GeneratePlaylist = () => {
               />
               <div className="items-center flex">
                 <label className="text-lg font-medium mr-12">Size</label>
-                <span className="text-gray-500 mr-4 text-lg w-4">{formValues.size}</span>
+                <span className="text-gray-500 mr-4 text-lg w-4">
+                  {formValues.size}
+                </span>
                 <input
                   type="range"
                   min="5"
@@ -172,7 +187,7 @@ const GeneratePlaylist = () => {
                   <label className="text-lg font-medium">Acoustic</label>
                 </div>
                 <div className="flex flex-row mb-2">
-                <input
+                  <input
                     className="mr-4"
                     type="checkbox"
                     name="isIndie"
