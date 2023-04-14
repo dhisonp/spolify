@@ -9,26 +9,26 @@ const Main = () => {
     const server = process.env.SERVER_URL;
 
     // Check if user is logged in
-    // useEffect(() => {
-    //     // async function fetchData() {
-    //     //     const response = await fetch(server + "/user");
-    //     //     if (response.status === 200) {
-    //     //         const data = await response.json();
-    //     //         setUserData(data);
-    //     //         setLoggedIn(true);
-    //     //     }
-    //     // }
-    //     // fetchData();
-    //     axios
-    //         .get(server + "/user")
-    //         .then((res) => {
-    //             setUserData(res.data);
-    //             setLoggedIn(true);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }, []);
+    useEffect(() => {
+        // async function fetchData() {
+        //     const response = await fetch(server + "/user");
+        //     if (response.status === 200) {
+        //         const data = await response.json();
+        //         setUserData(data);
+        //         setLoggedIn(true);
+        //     }
+        // }
+        // fetchData();
+        axios
+            .get(server + "/user")
+            .then((res) => {
+                setUserData(res.data);
+                setLoggedIn(true);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     const handleLogout = async () => {
         try {
