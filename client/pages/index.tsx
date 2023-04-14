@@ -25,21 +25,21 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex flex-col items-center justify-center min-h-screen bg-stone-100 py-2">
-        <h1 className="text-6xl font-bold">
+        <h1 className="text-4xl font-bold">
           Welcome to <a className="text-fuchsia-800">Spolify</a>
         </h1>
 
-        <p className="mt-3 text-2xl">Music under control.</p>
+        <p className="mt-3 text-xl">Music under control.</p>
 
         <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
           <a
             href="/dashboard"
-            className="p-6 mt-6 text-left border-fuchsia-800 border-2 w-96 rounded-xl text-fuchsia-800 focus:text-fuchsia-800
+            className="p-4 mt-4 text-left border-fuchsia-800 border-2 w-72 rounded-xl text-fuchsia-800 focus:text-fuchsia-800
                             hover:bg-fuchsia-800 transition duration-200 hover:text-gray-100"
           >
             <button>
-              <h3 className="text-2xl font-bold text-left">Login &rarr;</h3>
-              <p className="mt-4 text-xl">Login via Spotify.</p>
+              <h3 className="text-xl font-bold text-left">Login &rarr;</h3>
+              <p className="mt-4 text-lg">Login via Spotify.</p>
             </button>
           </a>
         </div>

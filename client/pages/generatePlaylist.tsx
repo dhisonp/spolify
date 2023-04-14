@@ -2,8 +2,10 @@ import Head from "next/head";
 import React, { ChangeEvent, useState } from "react";
 import Button from "@/components/Button";
 import { useRouter } from "next/router";
+import InputField from "@/components/InputField";
 
 interface FormValues {
+  title: string;
   uris: {
     uri1: string;
     uri2: string;
@@ -19,6 +21,7 @@ interface FormValues {
 const GeneratePlaylist = () => {
   const router = useRouter();
   const [formValues, setFormValues] = useState<FormValues>({
+    title: "",
     uris: {
       uri1: "",
       uri2: "",
@@ -28,17 +31,40 @@ const GeneratePlaylist = () => {
     },
     isAcoustic: false,
     isIndie: false,
-    size: 10,
+    size: 15,
   });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = event.target;
+
+    if (name.startsWith("uri")) {
+      // If the name starts with "uris.", update the `uris` object
+      const uriName = name;
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        uris: {
+          ...prevValues.uris,
+          [uriName]: value,
+        },
+      }));
+    } else if (name === "size") {
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        size: parseInt(value),
+      }));
+    } else {
+      // Otherwise, update the other fields as before
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(formValues);
     // Handle form submission here
-  };
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormValues({ ...formValues, [name]: value });
   };
 
   const handleBack = () => {
@@ -73,60 +99,85 @@ const GeneratePlaylist = () => {
             className="flex flex-col justify-center items-center"
             onSubmit={handleSubmit}
           >
+            <div className="flex flex-col justify-center">
+              <InputField
+                placeholder="Name of the playlist."
+                label="Title"
+                className="mt-2"
+                name="title"
+                value={formValues.title}
+                onChange={handleChange}
+              />
+              <div className="items-center flex">
+                <label className="text-lg font-medium mr-12">Size</label>
+                <span className="text-gray-500 mr-4 text-lg w-4">{formValues.size}</span>
+                <input
+                  type="range"
+                  min="5"
+                  max="30"
+                  name="size"
+                  value={formValues.size}
+                  onChange={handleChange}
+                  className="cursor-pointer range accent-fuchsia-700 w-3/5"
+                />
+              </div>
+            </div>
             <div className="flex flex-row justify-center items-center">
               <div className="flex flex-col p-4">
-                <div className="flex flex-row items-center">
-                  <label className="text-lg font-medium mr-2">1. </label>
-                  <input
-                    placeholder="Paste link or id"
-                    className="bg-gray-50 w-80 py-2 px-4 m-2 rounded-full border-2 border-fuchsia-800 focus:outline-none focus:bg-emerald-50 text-gray-700"
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="text-lg font-medium mr-2">2. </label>
-                  <input
-                    placeholder="Paste link or id"
-                    className="bg-gray-50 w-80 py-2 px-4 m-2 rounded-full border-2 border-fuchsia-800 focus:outline-none focus:bg-emerald-50 text-gray-700"
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="text-lg font-medium mr-2">3. </label>
-                  <input
-                    placeholder="Paste link or id"
-                    className="bg-gray-50 w-80 py-2 px-4 m-2 rounded-full border-2 border-fuchsia-800 focus:outline-none focus:bg-emerald-50 text-gray-700"
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="text-lg font-medium mr-2">4. </label>
-                  <input
-                    placeholder="Paste link or id"
-                    className="bg-gray-50 w-80 py-2 px-4 m-2 rounded-full border-2 border-fuchsia-800 focus:outline-none focus:bg-emerald-50 text-gray-700"
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="text-lg font-medium mr-2">5. </label>
-                  <input
-                    placeholder="Paste link or id"
-                    className="bg-gray-50 w-80 py-2 px-4 m-2 rounded-full border-2 border-fuchsia-800 focus:outline-none focus:bg-emerald-50 text-gray-700"
-                  />
-                </div>
+                <InputField
+                  placeholder="Paste artist/track link or id here."
+                  label="1. "
+                  name="uri1"
+                  value={formValues.uris.uri1}
+                  onChange={handleChange}
+                />
+                <InputField
+                  placeholder="Paste artist/track link or id here."
+                  label="2. "
+                  name="uri2"
+                  value={formValues.uris.uri2}
+                  onChange={handleChange}
+                />
+                <InputField
+                  placeholder="Paste artist/track link or id here."
+                  label="3. "
+                  name="uri3"
+                  value={formValues.uris.uri3}
+                  onChange={handleChange}
+                />
+                <InputField
+                  placeholder="Paste artist/track link or id here."
+                  label="4. "
+                  name="uri4"
+                  value={formValues.uris.uri4}
+                  onChange={handleChange}
+                />
+                <InputField
+                  placeholder="Paste artist/track link or id here."
+                  label="5. "
+                  name="uri5"
+                  value={formValues.uris.uri5}
+                  onChange={handleChange}
+                />
               </div>
               <div className="flex flex-col mx-4">
                 <div className="flex flex-row mb-2">
                   <input
                     className="mr-4"
                     type="checkbox"
-                    name="agree"
-                    value="true"
+                    name="isAcoustic"
+                    checked={formValues.isAcoustic}
+                    onChange={handleChange}
                   />
                   <label className="text-lg font-medium">Acoustic</label>
                 </div>
                 <div className="flex flex-row mb-2">
-                  <input
+                <input
                     className="mr-4"
                     type="checkbox"
-                    name="agree"
-                    value="true"
+                    name="isIndie"
+                    checked={formValues.isIndie}
+                    onChange={handleChange}
                   />
                   <label className="text-lg font-medium">Unpopular</label>
                 </div>
