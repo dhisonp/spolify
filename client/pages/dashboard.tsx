@@ -19,6 +19,10 @@ const Dashboard = () => {
     router.push("/generatePlaylist");
   };
 
+  const handleLogOut = () => {
+    alert("delete token or whatever")
+  }
+
   const helperText1 =
     '"Auto Generate" automatically generates a playlist based on your top items with pre determined settings.';
   const helperText2 =
@@ -55,7 +59,7 @@ const Dashboard = () => {
           </div>
           <div className="my-2 text-lg px-6 py-3 w-auto h-12 flex flex-row items-center justify-between">
             <Button
-              onClick={handleOnClickCustomGenerate}
+              onClick={handleLogOut}
               className="border-red-700 hover:bg-red-700 text-red-700"
             >
               &larr; Log Out
