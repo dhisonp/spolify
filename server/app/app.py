@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, session, request, redirect
 from flask_cors import CORS
 from flask_session import Session
+import os
 from os import environ, urandom
 from dotenv import load_dotenv
 import spotipy
@@ -30,29 +31,24 @@ Session(app)
 
 # Load .env
 load_dotenv()
-# Define scopes TODO Organize
+# Define scopes and auth stuff
 scope = "user-library-read user-read-currently-playing playlist-modify-private user-top-read playlist-modify-public"
+cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
+auth_manager = spotipy.oauth2.SpotifyOAuth(scope=scope,
+                                           cache_handler=cache_handler,
+                                           show_dialog=True
+                                           )
 
 
 @app.route('/login')
 def login():
-    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-    auth_manager = spotipy.oauth2.SpotifyOAuth(scope=scope,
-                                               cache_handler=cache_handler,
-                                               show_dialog=True
-                                               )
-    if request.args.get("code"):
-        # Step 2. Being redirected from Spotify auth page
-        auth_manager.get_access_token(request.args.get("code"))
-        return redirect('/')
-    if not auth_manager.validate_token(cache_handler.get_cached_token()):
-        # Step 1. Display sign in link when no token
-        auth_url = auth_manager.get_authorize_url()
-        return jsonify(auth_url)
+    auth_url = auth_manager.get_authorize_url()
+    return jsonify(auth_url)
 
 
 @app.route('/logout')
 def logout():
+    session.pop("token_info", None)
     return jsonify(message='Logged out'), 200
 
 
@@ -64,6 +60,14 @@ def get_user():
         return jsonify(user_data)
     except spotipy.SpotifyException:
         return jsonify(error='Not logged in'), 401
+
+@app.route('/redirect')
+def redirect_page():
+    auth_manager.get_access_token(request.args.get("code"))
+    token_info = auth_manager.get_cached_token()
+    redirect_url = 'http://localhost:3000/dashboard?access_token={}'.format(
+        token_info['access_token'])
+    return redirect(redirect_url)
 
 
 @app.route('/')
@@ -80,10 +84,11 @@ def index():
         auth_manager.get_access_token(request.args.get("code"))
         return redirect('/')
 
+    red = os.getenv('SPOTIPY_REDIRECT_URL')
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         # Step 1. Display sign in link when no token
         auth_url = auth_manager.get_authorize_url()
-        return f'<h2><a href="{auth_url}">Sign in</a></h2>'
+        return f'<h2><a href="{auth_url}">Sign in {red}</a></h2>'
 
     # Step 3. Signed in, display data
     spotify = spotipy.Spotify(auth_manager=auth_manager)
@@ -113,3 +118,11 @@ def hello_world():
 if __name__ == '__main__':
     # app.run()
     app.run(host="localhost", port=8080)
+
+'''
+Flow:
+FE Login -> BE Auth URL -> FE Get URL -> Redirect to Spotify ->
+Spotify redirect to BE with auth code -> BE processes code and stores in Flask session ->
+BE generates access token for FE upon redirect -> FE stores access token ->
+FE sends access token in request header -> BE uses access token for auth: sp = spotipy.Spotify(auth=auth_token)
+'''

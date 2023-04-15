@@ -8,21 +8,15 @@ const Home: NextPage = () => {
   // const [spotifyAuthURL, setSpotifyAuthURL] = useState<string>("");
   const server = process.env.SERVER_URL;
   const isDev = process.env.DEV_MODE;
-  console.log(isDev);
-  console.log(server);
 
   const handleLogin = () => {
-    if (isDev == "TRUE") {
-      window.location.href = "/dashboard";
-    }
-
     axios
       .get(server + "/login")
-      .then((res) => {
-        window.location.href = res.data;
+      .then((response) => {
+        window.location.href = response.data;
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
       });
   };
 

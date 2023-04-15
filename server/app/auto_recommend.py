@@ -1,4 +1,4 @@
-from flask import jsonify, Blueprint
+from flask import jsonify, Blueprint, request
 import spotipy
 from check_auth import check_auth
 
@@ -7,7 +7,11 @@ auto_recommend_bp = Blueprint('auto_recommend', __name__)
 
 @ auto_recommend_bp.route("/auto_recommend")
 def auto_recommend():
-    sp = check_auth()
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return jsonify({'message': 'Authorization header is missing or invalid.'}), 401
+    auth_token = auth_header.split(" ")[1]
+    sp = spotipy.Spotify(auth=auth_token)
 
     seed_tracks, seed_artists, seed_genres = [], [], []
     # Get user top tracks

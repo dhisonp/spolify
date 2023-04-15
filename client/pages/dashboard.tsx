@@ -20,6 +20,12 @@ const Dashboard = () => {
   });
   const server = process.env.SERVER_URL;
 
+  if (typeof window !== "undefined") {
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get("access_token");
+    localStorage.setItem("access_token", accessToken);
+  }
+
   useEffect(() => {
     axios
       .get(server + "/user")
@@ -40,16 +46,68 @@ const Dashboard = () => {
     toggleHelper(true);
   };
 
+  const handleOnClickSaved = () => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      console.error("No access token found in local storage");
+      return;
+    }
+
+    axios
+      .get(server + "/saved", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((response) => {
+        console.log("Response data:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching saved tracks:", error);
+        if (error.response) {
+          console.error("Response status:", error.response.status);
+          console.error("Response data:", error.response.data);
+        }
+      });
+  };
+
   const handleOnClickAutoGenerate = () => {
-    alert("API call to server!");
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      console.error("No access token found in local storage");
+      return;
+    }
+    axios
+      .get(server + "/create_playlist", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        window.location.replace(res.data)
+      })
+      .catch((error) => {
+        console.error("Error generating playlist:", error);
+        if (error.response) {
+          console.error("Response status:", error.response.status);
+          console.error("Response data:", error.response.data);
+        }
+      });
   };
 
   const handleOnClickCustomGenerate = () => {
     router.push("/generatePlaylist");
   };
 
-  const handleLogOut = () => {
-    alert("TODO -> delete token or whatever");
+  const handleLogOut = async () => {
+    try {
+      // Make a GET request to the /logout endpoint
+      const response = await axios.get(server + "/logout");
+      localStorage.removeItem("token");
+      window.location.href = "/";
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const helperText1 =
@@ -94,6 +152,9 @@ const Dashboard = () => {
                 </Button>
                 <Button onClick={handleOnClickCustomGenerate}>
                   Custom Recommend &rarr;
+                </Button>
+                <Button onClick={handleOnClickSaved}>
+                  Debug
                 </Button>
               </div>
             </div>
