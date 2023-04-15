@@ -11,6 +11,8 @@ interface userData {
 }
 
 const Dashboard = () => {
+  const DEV_MODE = true;
+
   const router = useRouter();
   const [displayHelper, toggleHelper] = useState(false);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -84,7 +86,7 @@ const Dashboard = () => {
         },
       })
       .then((res) => {
-        window.location.replace(res.data)
+        window.location.replace(res.data);
       })
       .catch((error) => {
         console.error("Error generating playlist:", error);
@@ -153,9 +155,9 @@ const Dashboard = () => {
                 <Button onClick={handleOnClickCustomGenerate}>
                   Custom Recommend &rarr;
                 </Button>
-                <Button onClick={handleOnClickSaved}>
-                  Debug
-                </Button>
+                {DEV_MODE && (
+                  <Button onClick={handleOnClickSaved}>Debug</Button>
+                )}
               </div>
             </div>
             <div className="my-4 whitespace-normal max-w-4xl items-center justify-center text-center">
