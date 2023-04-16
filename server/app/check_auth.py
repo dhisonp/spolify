@@ -2,17 +2,8 @@ import spotipy
 from flask import session, redirect
 
 
-def check_auth():
-    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-    auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)
-    if not auth_manager.validate_token(cache_handler.get_cached_token()):
-        return redirect('/')
-    return spotipy.Spotify(auth_manager=auth_manager)
-
-# def check_auth():
-#     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-#     auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)
-#     if not auth_manager.validate_token(cache_handler.get_cached_token()):
-#         return redirect('/')
-#     spotify = spotipy.Spotify(auth_manager=auth_manager)
-#     return spotify
+def check_auth(auth_header):
+    if not auth_header:
+        return jsonify({'message': 'Authorization header is missing or invalid.'}), 401
+    auth_token = auth_header.split(" ")[1]
+    return spotipy.Spotify(auth=auth_token)

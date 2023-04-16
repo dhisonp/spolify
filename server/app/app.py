@@ -14,6 +14,7 @@ from top_tracks import top_tracks_bp
 from recommend import recommend_bp
 from auto_recommend import auto_recommend_bp
 from create_playlist import create_playlist_bp
+from create_playlist_custom import create_playlist_custom_bp
 
 # App and Blueprints
 app = Flask(__name__)
@@ -23,6 +24,7 @@ app.register_blueprint(top_tracks_bp)
 app.register_blueprint(recommend_bp)
 app.register_blueprint(auto_recommend_bp)
 app.register_blueprint(create_playlist_bp)
+app.register_blueprint(create_playlist_custom_bp)
 # Environment/Session Variables
 app.config['SECRET_KEY'] = urandom(64)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -54,12 +56,14 @@ def logout():
 
 @app.route('/user')
 def get_user():
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth())
+    auth_header = request.headers.get('Authorization')
+    sp = check_auth(auth_header)
     try:
         user_data = sp.me()
         return jsonify(user_data)
     except spotipy.SpotifyException:
         return jsonify(error='Not logged in'), 401
+
 
 @app.route('/redirect')
 def redirect_page():

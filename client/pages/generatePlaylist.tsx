@@ -99,13 +99,13 @@ const GeneratePlaylist = () => {
       return;
     }
     axios
-      .post(server + "/recommend", formValues, {
+      .post(server + "/create_playlist_custom", formValues, {
         headers: {
           Authorization: "Bearer " + token,
         },
       })
       .then((response) => {
-        console.log("Response data:", response.data);
+        window.location.replace(response.data);
       })
       .catch((error) => {
         console.error("Error fetching saved tracks:", error);

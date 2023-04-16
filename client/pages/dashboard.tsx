@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Button from "@/components/Button";
 import axios from "axios";
+import { access } from "fs";
 
 interface userData {
   username: string;
@@ -11,7 +12,7 @@ interface userData {
 }
 
 const Dashboard = () => {
-  const DEV_MODE = true;
+  const DEV_MODE = false;
 
   const router = useRouter();
   const [displayHelper, toggleHelper] = useState(false);
@@ -25,15 +26,21 @@ const Dashboard = () => {
   if (typeof window !== "undefined") {
     const urlParams = new URLSearchParams(window.location.search);
     const accessToken = urlParams.get("access_token");
-    localStorage.setItem("access_token", accessToken);
+    if (accessToken) localStorage.setItem("access_token", accessToken);
   }
 
   useEffect(() => {
+    const token = localStorage.getItem("access_token");
     axios
-      .get(server + "/user")
+      .get(server + "/user", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         setLoggedIn(true);
         const data = res.data;
+        console.log(data);
         setUserData({
           username: data.display_name,
           imageUri: data.images[0].url,
@@ -86,7 +93,7 @@ const Dashboard = () => {
         },
       })
       .then((res) => {
-        window.location.replace(res.data);
+        window.open(res.data, "_blank");
       })
       .catch((error) => {
         console.error("Error generating playlist:", error);
@@ -105,8 +112,9 @@ const Dashboard = () => {
     try {
       // Make a GET request to the /logout endpoint
       const response = await axios.get(server + "/logout");
-      localStorage.removeItem("token");
+      localStorage.removeItem("access_token");
       window.location.href = "/";
+      console.log(localStorage.getItem("access_token"));
     } catch (error) {
       console.error(error);
     }
@@ -142,7 +150,7 @@ const Dashboard = () => {
                   </h1>
                 </div>
               </div>
-              <div className="my-2 text-lg px-6 py-3 w-auto h-12 flex flex-row items-center justify-between">
+              <div className="my-2 text-lg px-6 py-3 w-auto h-12 flex flex-row items-center justify-center">
                 <Button
                   onClick={handleLogOut}
                   className="border-red-700 hover:bg-red-700 text-red-700"

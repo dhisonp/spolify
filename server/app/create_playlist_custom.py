@@ -3,15 +3,17 @@ from spotipy.exceptions import SpotifyException
 from flask import Blueprint, json, request, jsonify
 from check_auth import check_auth
 from auto_recommend import auto_recommend
+import os
+import requests
 
-create_playlist_bp = Blueprint('create_playlist', __name__)
+create_playlist_custom_bp = Blueprint('create_playlist_custom', __name__)
 
 # TODO Takes parameters from the results of recommend() and auto_recommend()
 # instead of coded into the function.
 # NOTE `seed` is currently hard-coded into auto_recommend()
 
 
-@ create_playlist_bp.route("/create_playlist", methods=['GET', 'POST'])
+@ create_playlist_custom_bp.route("/create_playlist_custom", methods=['POST'])
 def create_playlist():
     auth_header = request.headers.get('Authorization')
     if not auth_header:
@@ -20,15 +22,19 @@ def create_playlist():
     sp = spotipy.Spotify(auth=auth_token)
 
     user_id = sp.me()['id']
-    playlist_name = "Spolify - " + sp.me()['display_name']
+    data = request.get_json()
+    playlist_name = data['title']
+    # NOTE Temporary hardcode
     is_public = True
     is_collaborative = False
+
     created, result = None, None
 
-    # NOTE Set seeds automatically from auto_recommend()
-    # auto_recommend() returns a Flask object. Use get_data(as_text=True) to get the JSON
-    # in string format for processing.
-    seeds = json.loads(auto_recommend().get_data(as_text=True))
+    # Send a POST request to /recommend
+    server_url = os.environ.get('SERVER_URL')
+    seeds = requests.post(server_url + '/recommend',
+                          json=data, headers={"Authorization": "Bearer " + auth_token})
+    seeds = seeds.json()
     seeds = [item['id'] for item in seeds]
 
     # TODO Fix -> description = 'Playlist created with Spolify.'
@@ -50,14 +56,3 @@ def create_playlist():
 def error(err):
     print("An error occured:", err.msg)
     return err.msg
-
-
-"""
-Methodology works: cover your bases. Make sure the legs work before you run. 
-Saves up time and identifies problem quickly.
-
-In this module, you were dealing with 'recommendation' being a JSON data type, 
-since you did 'jsonify()' on the auto_recommend() function. 
-You found the error while ensuring that the result is the appropriate data type 
-to be parsed into playlist_add_items. Good job!
-"""
