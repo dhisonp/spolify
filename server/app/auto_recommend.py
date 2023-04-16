@@ -1,6 +1,5 @@
 from flask import jsonify, Blueprint, request
 import spotipy
-from check_auth import check_auth
 
 auto_recommend_bp = Blueprint('auto_recommend', __name__)
 

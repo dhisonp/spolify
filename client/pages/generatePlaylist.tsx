@@ -3,6 +3,8 @@ import React, { ChangeEvent, useState } from "react";
 import Button from "@/components/Button";
 import { useRouter } from "next/router";
 import InputField from "@/components/InputField";
+import axios from "axios";
+import { log } from "console";
 
 interface FormValues {
   title: string;
@@ -19,6 +21,7 @@ interface FormValues {
 }
 
 const GeneratePlaylist = () => {
+  const server = process.env.SERVER_URL;
   const router = useRouter();
   const [formValues, setFormValues] = useState<FormValues>({
     title: "",
@@ -62,10 +65,55 @@ const GeneratePlaylist = () => {
     }
   };
 
+  const debug = () => {
+    console.log("DEBUGGING");
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      console.error("No access token found in local storage");
+      return;
+    }
+
+    axios
+      .get(server + "/saved", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((response) => {
+        console.log("Response data:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching saved tracks:", error);
+        if (error.response) {
+          console.error("Response status:", error.response.status);
+          console.error("Response data:", error.response.data);
+        }
+      });
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formValues);
-    // Handle form submission here
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      console.error("No access token found in local storage");
+      return;
+    }
+    axios
+      .post(server + "/recommend", formValues, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((response) => {
+        console.log("Response data:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching saved tracks:", error);
+        if (error.response) {
+          console.error("Response status:", error.response.status);
+          console.error("Response data:", error.response.data);
+        }
+      });
   };
 
   const handleBack = () => {
