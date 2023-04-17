@@ -7,7 +7,7 @@ import axios from "axios";
 const Home: NextPage = () => {
   // const [spotifyAuthURL, setSpotifyAuthURL] = useState<string>("");
   const server = process.env.SERVER_URL;
-  console.log("server");
+  console.log(server);
   const isDev = process.env.DEV_MODE;
 
   const handleLogin = () => {
