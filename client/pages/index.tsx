@@ -10,6 +10,7 @@ const Home: NextPage = () => {
   const isDev = process.env.DEV_MODE;
 
   const handleLogin = () => {
+    alert("LOGIN BRO")
     axios
       .get(server + "/login")
       .then((response) => {
