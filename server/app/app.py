@@ -65,11 +65,12 @@ def get_user():
         return jsonify(error='Not logged in'), 401
 
 
-@app.route('/redirect') # after being redirected from Spotify Auth page
+@app.route('/redirect')  # after being redirected from Spotify Auth page
 def redirect_page():
     auth_manager.get_access_token(request.args.get("code"))
     token_info = auth_manager.get_cached_token()
-    redirect_url = 'http://localhost:3000/dashboard?access_token={}'.format(
+    fe = "https://spolify.vercel.app"
+    redirect_url = fe + '/dashboard?access_token={}'.format(
         token_info['access_token'])
     return redirect(redirect_url)
 
