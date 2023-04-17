@@ -130,7 +130,10 @@ const GeneratePlaylist = () => {
     p3: "2. You can put in up to 5 in total of either artists or songs.",
     p4: "3. Feel free to play with some of the advanced options, like 'Acoustic' and 'Unpopular;.",
     p5: "4. Press 'Generate' and you will be redirected to your new playlist!",
+    p6: "Note: Albums and Artist Recommendation in Development. Just song link for now :(",
   };
+
+  const fieldPlaceholder = "Spotify URL (song)";
 
   return (
     <div className=" bg-stone-100 mx-auto w-screen font-mono text-gray-900">
@@ -148,11 +151,12 @@ const GeneratePlaylist = () => {
               </p>
             </button>
             {displayHelper && (
-              <div className="transition duration-200">
+              <div className="">
                 <p>{operationGuideString.p2}</p>
                 <p>{operationGuideString.p3}</p>
                 <p>{operationGuideString.p4}</p>
                 <p>{operationGuideString.p5}</p>
+                <span className="text-sm text-gray-400">{operationGuideString.p6}</span>
               </div>
             )}
           </div>
@@ -188,35 +192,35 @@ const GeneratePlaylist = () => {
             <div className="flex flex-row justify-center items-center">
               <div className="flex flex-col p-4">
                 <InputField
-                  placeholder="Paste artist/track link or id here."
+                  placeholder={fieldPlaceholder}
                   label="1. "
                   name="uri1"
                   value={formValues.uris.uri1}
                   onChange={handleChange}
                 />
                 <InputField
-                  placeholder="Paste artist/track link or id here."
+                  placeholder={fieldPlaceholder}
                   label="2. "
                   name="uri2"
                   value={formValues.uris.uri2}
                   onChange={handleChange}
                 />
                 <InputField
-                  placeholder="Paste artist/track link or id here."
+                  placeholder={fieldPlaceholder}
                   label="3. "
                   name="uri3"
                   value={formValues.uris.uri3}
                   onChange={handleChange}
                 />
                 <InputField
-                  placeholder="Paste artist/track link or id here."
+                  placeholder={fieldPlaceholder}
                   label="4. "
                   name="uri4"
                   value={formValues.uris.uri4}
                   onChange={handleChange}
                 />
                 <InputField
-                  placeholder="Paste artist/track link or id here."
+                  placeholder={fieldPlaceholder}
                   label="5. "
                   name="uri5"
                   value={formValues.uris.uri5}

@@ -13,6 +13,7 @@ def auto_recommend():
     sp = spotipy.Spotify(auth=auth_token)
 
     seed_tracks, seed_artists, seed_genres = [], [], []
+    size = 15
     # Get user top tracks
     top_tracks = sp.current_user_top_tracks(5, 0, "medium_term")['items']
     # Append seeds to seed list
@@ -24,7 +25,7 @@ def auto_recommend():
     # NOTE Maximum of 5 seeds COMBINED (Genres + Tracks + Artists)
     # TODO Attributes like popularity, etc.
     results = sp.recommendations(
-        limit=10,
+        limit=size,
         seed_tracks=seed_tracks,
     )
     table = []
