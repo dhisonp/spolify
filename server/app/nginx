@@ -1,0 +1,17 @@
+server {
+    listen               443 ssl;
+
+    ssl_certificate      /etc/ssl/certs/certificate.crt;
+    ssl_certificate_key  /etc/ssl/certs/server.key;
+
+    server_name  147.182.184.245;
+    access_log   /var/log/nginx/nginx.vhost.access.log;
+    error_log    /var/log/nginx/nginx.vhost.error.log;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
