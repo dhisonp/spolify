@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Button from "@/components/Button";
 import axios from "axios";
-import { access } from "fs";
+import Header from "@/components/Header";
 
 interface userData {
   username: string;
@@ -121,36 +121,39 @@ const Dashboard = () => {
   };
 
   const helperText1 =
-    '"Auto Generate" automatically generates a playlist based on your top items with pre determined settings.';
+    '"Auto Generate" automatically generates a playlist in your account based on your top items with pre determined settings.';
   const helperText2 =
-    'For more customization and tailoring, "Custom Generator" is for you!';
+    'For more customization and tailoring, "Custom Recommend" is for you!';
 
   return (
-    <div className=" bg-stone-100 mx-auto w-screen font-mono text-gray-900">
+    <div className=" bg-stone-100 mx-auto w-screen font-sans text-gray-900">
       <Head>
         <title>Dashboard</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
 
       <main className="flex flex-col items-center justify-center min-h-screen py-2">
         {loggedIn && userData ? (
           <div>
-            <div className="flex flex-col">
-              <div className="px-6 py-3 h-auto flex flex-row items-center justify-center my-2">
-                <div className="mr-6">
+            <div className="flex flex-col justify-center items-center">
+              <div className="px-4 py-2 h-auto flex flex-row items-center justify-center">
+                <div className="mr-4">
                   <img
                     className="w-28 h-28 rounded-full border border-stone-200"
                     src={userData.imageUri}
                   />
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-gray-500 text-base">Welcome, </span>
-                  <h1 className="font-bold text-4xl text-fuchsia-950">
+                <div className="flex flex-col justify-around">
+                  <span className="text-gray-600 text-base sm:text-lg">
+                    Welcome,{" "}
+                  </span>
+                  <h1 className="font-semi text-2xl sm:text-4xl text-fuchsia-950">
                     {userData.username}
                   </h1>
                 </div>
               </div>
-              <div className="my-2 text-lg px-6 py-3 w-auto h-12 flex flex-row items-center justify-center">
+              <div className="my-2 text-lg px-6 py-3 w-auto items-center justify-center flex flex-col gap-y-2 sm:flex-row sm:gap-y-0">
                 <Button
                   onClick={handleLogOut}
                   className="border-red-700 hover:bg-red-700 text-red-700"
@@ -168,9 +171,9 @@ const Dashboard = () => {
                 )}
               </div>
             </div>
-            <div className="my-4 whitespace-normal max-w-4xl items-center justify-center text-center">
+            <div className="p-4 my-4 whitespace-normal max-w-2xl items-center justify-center text-center">
               <button onClick={handleOnClickHelper}>
-                <span className="text-gray-500 underline">
+                <span className="text-gray-500 hover:text-gray-400">
                   What's the difference?
                 </span>
               </button>

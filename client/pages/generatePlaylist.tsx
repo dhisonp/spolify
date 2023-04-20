@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import InputField from "@/components/InputField";
 import axios from "axios";
 import { log } from "console";
+import Header from "@/components/Header";
 
 interface FormValues {
   title: string;
@@ -110,6 +111,7 @@ const GeneratePlaylist = () => {
       .catch((error) => {
         console.error("Error fetching saved tracks:", error);
         if (error.response) {
+          alert("Generate failed. Please check your inputs!");
           console.error("Response status:", error.response.status);
           console.error("Response data:", error.response.data);
         }
@@ -126,40 +128,25 @@ const GeneratePlaylist = () => {
 
   const operationGuideString = {
     p1: `Operation Guide `,
-    p2: "1. Paste the links to an artist/song you like.",
-    p3: "2. You can put in up to 5 in total of either artists or songs.",
-    p4: "3. Feel free to play with some of the advanced options, like 'Acoustic' and 'Unpopular;.",
-    p5: "4. Press 'Generate' and you will be redirected to your new playlist!",
-    p6: "Note: Albums and Artist Recommendation in Development. Just song link for now :(",
+    p2: "1. Paste the links to a song for reference.",
+    p3: "2. Paste up to 5 links or song id.",
+    p4: "3. Feel free to play with some of the niche options, like 'Acoustic' or 'Unpopular'.",
+    p5: "4. 'Generate' will create a new playlist under your account and you'll be redirected!",
+    p6: "Note: Albums and Artist recommendation in development.",
   };
 
   const fieldPlaceholder = "Spotify URL (song)";
 
   return (
-    <div className=" bg-stone-100 mx-auto w-screen font-mono text-gray-900">
+    <div className=" bg-stone-100 mx-auto w-screen h-screen text-gray-900">
       <Head>
         <title>Generate Playlist</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header/>
 
-      <main className="flex flex-col items-center justify-center min-h-screen py-2">
-        <div className="container w-2/3">
-          <div className="text-gray-500 mb-3 text-center italic">
-            <button onClick={handleGuide}>
-              <p className="text-gray-500 italic text-lg hover:text-gray-400 mb-1">
-                {operationGuideString.p1}&rarr;
-              </p>
-            </button>
-            {displayHelper && (
-              <div className="">
-                <p>{operationGuideString.p2}</p>
-                <p>{operationGuideString.p3}</p>
-                <p>{operationGuideString.p4}</p>
-                <p>{operationGuideString.p5}</p>
-                <span className="text-sm text-gray-400">{operationGuideString.p6}</span>
-              </div>
-            )}
-          </div>
+      <main className="flex flex-col justify-center h-full pt-16 overflow-hidden">
+        <div className="w-full">
           <form
             className="flex flex-col justify-center items-center"
             onSubmit={handleSubmit}
@@ -173,7 +160,7 @@ const GeneratePlaylist = () => {
                 value={formValues.title}
                 onChange={handleChange}
               />
-              <div className="items-center flex">
+              <div className="items-center flex mt-2">
                 <label className="text-lg font-medium mr-12">Size</label>
                 <span className="text-gray-500 mr-4 text-lg w-4">
                   {formValues.size}
@@ -189,7 +176,7 @@ const GeneratePlaylist = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-row justify-center items-center">
+            <div className="flex flex-col sm:flex-row justify-center items-center mt-8">
               <div className="flex flex-col p-4">
                 <InputField
                   placeholder={fieldPlaceholder}
@@ -250,27 +237,45 @@ const GeneratePlaylist = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-center">
               <button
-                className="mx-2 border-2 py-2 px-4 border-emerald-600 rounded-full hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
+                className="m-2 border-2 py-2 px-4 border-emerald-600 rounded-full hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
                 onClick={handleBack}
               >
                 <span className="font-bold">&larr; Back</span>
               </button>
               <button
-                className="mx-2 border-2 py-2 px-4 border-emerald-600 rounded-full hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
+                className="m-2 border-2 py-2 px-4 border-emerald-600 rounded-full hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
                 type="reset"
               >
                 <span className="font-bold">Reset</span>
               </button>
               <button
-                className="mx-2 border-2 py-2 px-4 border-emerald-700 rounded-full bg-emerald-700 text-gray-100 transition duration-200 hover:border-emerald-300 hover:bg-emerald-300 hover:text-fuchsia-900"
+                className="m-2 border-2 py-2 px-4 border-emerald-700 rounded-full bg-emerald-700 text-gray-100 transition duration-200 hover:border-emerald-300 hover:bg-emerald-300 hover:text-fuchsia-900"
                 type="submit"
               >
                 <span className="font-bold">Generate &rarr;</span>
               </button>
             </div>
           </form>
+          <div className="text-gray-500 mb-3 text-center italic">
+            <button onClick={handleGuide}>
+              <p className="text-gray-500 italic text-base hover:text-gray-400 mb-2 mt-4">
+                {operationGuideString.p1}&rarr;
+              </p>
+            </button>
+            {displayHelper && (
+              <div className="">
+                <p>{operationGuideString.p2}</p>
+                <p>{operationGuideString.p3}</p>
+                <p>{operationGuideString.p4}</p>
+                <p>{operationGuideString.p5}</p>
+                <span className="text-sm text-gray-400">
+                  {operationGuideString.p6}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </main>
     </div>

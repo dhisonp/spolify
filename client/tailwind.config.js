@@ -11,13 +11,15 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      sans: ["Graphik", "sans-serif"],
+      sans: ["Inter", "sans-serif"],
       serif: ["Merriweather", "serif"],
       mono: ['"JetBrains Mono"', "mono"],
+      display: ["Bebas Neue", "display"],
     },
     fontWeight: {
       bold: 700,
       medium: 500,
+      semi: 600,
     },
     fontStyle: {
       italic: "italic",
