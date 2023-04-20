@@ -34,5 +34,5 @@ Freedom and full control to your ears.
 
 ## Screenshots
 <span><i>These are not final.</i> Current stage of the app is VIP.</span>
-![Screenshot 1](./assets/ss1.png)
-![Screenshot 2](./assets/ss2.png)
+![Screenshot 1](./assets/nss1.png)
+![Screenshot 2](./assets/nss2.png)
