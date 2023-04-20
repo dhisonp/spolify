@@ -69,55 +69,10 @@ def get_user():
 def redirect_page():
     auth_manager.get_access_token(request.args.get("code"))
     token_info = auth_manager.get_cached_token()
-    fe = "https://spolify.vercel.app"
+    fe = environ.get("CLIENT_URL")
     redirect_url = fe + '/dashboard?access_token={}'.format(
         token_info['access_token'])
     return redirect(redirect_url)
-
-
-# @app.route('/')
-# def index():
-#     # TODO Integrate with Front-End
-#     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-#     auth_manager = spotipy.oauth2.SpotifyOAuth(scope=scope,
-#                                                cache_handler=cache_handler,
-#                                                show_dialog=True
-#                                                )
-
-#     if request.args.get("code"):
-#         # Step 2. Being redirected from Spotify auth page
-#         auth_manager.get_access_token(request.args.get("code"))
-#         return redirect('/')
-
-#     red = os.getenv('SPOTIPY_REDIRECT_URL')
-#     if not auth_manager.validate_token(cache_handler.get_cached_token()):
-#         # Step 1. Display sign in link when no token
-#         auth_url = auth_manager.get_authorize_url()
-#         return f'<h2><a href="{auth_url}">Sign in {red}</a></h2>'
-
-#     # Step 3. Signed in, display data
-#     spotify = spotipy.Spotify(auth_manager=auth_manager)
-#     return f'<h2>Hi {spotify.me()["display_name"]}, ' \
-#         f'<small><a href="/sign_out">[sign out]<a/></small></h2>' \
-#         f'<a href="/saved">saved songs</a> | ' \
-#         f'<a href="/recommend">standard recommend</a> | ' \
-#         f'<a href="/auto_recommend">auto recommend</a> | ' \
-#         f'<a href="/top_tracks">my top tracks</a> | ' \
-#         f'<a href="/create_playlist">create playlist</a> | ' \
-#         f'<span><br/>Note: "standard recommend" is currently hardcoded. Please test the other features.</span>' \
-#         f'<span><br/>"create playlist" generates a playlist, tracks recommended based on user top items</span>'
-#     # f'<a href="/current_user">me</a>' \
-
-
-# @app.route('/sign_out')
-# def sign_out():
-#     session.pop("token_info", None)
-#     return redirect('/')
-
-
-# @ app.route("/hello_world")
-# def hello_world():
-#     return "<p>Hello, World!</p>"
 
 
 if __name__ == '__main__':

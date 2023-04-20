@@ -11,6 +11,7 @@ Freedom and full control to your ears.
 - Spotipy (Spotify API Python Wrapper)
 ### Deployment
 - Docker
+- NGINX
 - Vercel for front-end
 - DigitalOcean for back-end
 
@@ -33,5 +34,5 @@ Freedom and full control to your ears.
 
 ## Screenshots
 <span><i>These are not final.</i> Current stage of the app is VIP.</span>
-![Screenshot 1](./assets/ss2.png)
 ![Screenshot 1](./assets/ss1.png)
+![Screenshot 2](./assets/ss2.png)
