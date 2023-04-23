@@ -19,8 +19,13 @@ def recommend():
     size = data['size']
     seeds = []
     for _, seed in data['uris'].items():
-        if len(seed) > 0:
-            seeds.append(seed)
+        if len(seed) == 0:
+            continue
+        # Check if string is an uri or a search string
+        if not seed.startswith("https://"):
+            search = sp.search(seed, limit=5, offset=0, type="track")
+            seed = search['tracks']['items'][0]['id']
+        seeds.append(seed)
 
     # Recommendation API
     # Define sub attributes
@@ -46,6 +51,7 @@ def recommend():
         }
         table.append(obj)
     return jsonify(table)
+
 
 ''' # # NOTE Temporary hardcode for playlist size
     # size = 10
