@@ -126,7 +126,9 @@ const GeneratePlaylist = () => {
         },
       })
       .then((response) => {
-        window.location.replace(response.data);
+        if (response.data != null) {
+          window.open(response.data, "_blank")?.focus();
+        }
       })
       .catch((error) => {
         console.error("Error creating playlist:", error);

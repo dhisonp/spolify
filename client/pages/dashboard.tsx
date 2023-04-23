@@ -93,7 +93,7 @@ const Dashboard = () => {
         },
       })
       .then((res) => {
-        window.open(res.data, "_blank");
+        window.open(res.data, "_blank")?.focus();
       })
       .catch((error) => {
         console.error("Error generating playlist:", error);
