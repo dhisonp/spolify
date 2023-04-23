@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <div className="absolute text-lg px-4 py-2 text-emerald-400 flex gap-x-4 bg-stone-900 w-screen">
+    <div className="absolute flex text-md px-4 py-2 text-emerald-400 gap-x-4 bg-stone-900 w-screen">
       <Link
         href="https://github.com/dhisonp"
         className="opacity-70 hover:opacity-100"
@@ -20,6 +20,14 @@ const Header = () => {
         className="text-emerald-200 opacity-70 hover:opacity-100"
       >
         Repo
+      </Link>
+      <Link
+        href="https://github.com/dhisonp/spolify"
+        className=" ml-auto hidden sm:block"
+      >
+        <span className="text-gray-500">
+          Spolify <span className="text-gray-600">by </span>Dhison Padma
+        </span>
       </Link>
     </div>
   );

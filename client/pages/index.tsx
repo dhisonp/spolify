@@ -28,13 +28,13 @@ const Home: NextPage = () => {
     "Enhance your music discovery experience with Spolify– a barebones yet effective music recommender. Adjust your recommendation settings and create tailored playlists.";
 
   const descriptionStatus =
-    "This app is still under development, and you need to contact me so I can register your account to allow Spotify authorization. This is Spotify's rules, it is what it is :P";
+    "This app is still under development, and Spotify requires the developer to register potential authenticated users. Please contact me if you're interested in testing the app.";
 
   const descriptionDev =
-    "Application is a prototype/MVP, so many edges are yet to be smoothened. Application UI is quite minimal, while I ensure that it is rather eye-pleasing, I'm focusing on functionality development. You can see the full tech stack and future updates in the repo, linked at the top of the page.";
+    "Our application is currently in its prototype/MVP stage and will continue to undergo development to further enhance its functionality and user experience. While the application's user interface boasts a minimalistic design, we have made sure it is visually pleasing while prioritizing functionality. For more information on our technology stack and upcoming updates, please refer to the repository linked at the top of this page.";
 
   return (
-    <div className="min-w-full text-gray-800 bg-stone-200 h-screen overflow-auto">
+    <div className="min-w-full text-gray-800 bg-stone-200">
       <Head>
         <title>Spolify</title>
         <link rel="icon" href="/favicon.ico" />
@@ -42,23 +42,23 @@ const Home: NextPage = () => {
 
       <Header />
 
-      <main className="flex flex-col items-center justify-between h-full bg-emerald-100">
+      <main className="flex flex-col items-center justify-between min-h-screen bg-emerald-100 overflow-hidden">
         <div className="bg-stone-900 w-screen justify-center flex items-end p-4 pt-48">
           <div className="font-display text-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-fuchsia-500">
             <h1 className="text-5xl sm:text-7xl">
               Welcome to <a className="text-fuchsia-400">Spolify</a>
             </h1>
-            <p className="text-3xl sm:text-6xl">
+            <p className="text-4xl sm:text-6xl">
               Playlist power in your hands.
             </p>
           </div>
         </div>
-        <dl className="px-4 py-8 sm:px-24 md:px-36 text-base sm:text-lg bg-emerald-100 flex flex-col">
-          <dt className="font-semi text-xl">What is Spolify?</dt>
+        <dl className="px-8 py-6 sm:px-24 md:px-48 text-sm sm:text-base bg-emerald-100 flex flex-col">
+          <dt className="font-semi">What is Spolify?</dt>
           <dd className="">{descriptionWhatIs}</dd>
-          <dt className="font-semi text-xl mt-2">Anything to know about?</dt>
+          <dt className="font-semi mt-4">Anything to know about?</dt>
           <dd className="">{descriptionStatus}</dd>
-          <dt className="font-semi text-xl mt-2">Developer notes:</dt>
+          <dt className="font-semi mt-4">Developer and Technical Notes</dt>
           <dd className="">{descriptionDev}</dd>
         </dl>
         <div

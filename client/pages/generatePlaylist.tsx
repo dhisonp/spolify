@@ -186,7 +186,7 @@ const GeneratePlaylist = () => {
             </div>
           )}
         </div>
-        <form className="flex flex-col items-center" onSubmit={handleSubmit}>
+        <form className="flex flex-col items-center px-2" onSubmit={handleSubmit}>
           <div className="flex flex-col">
             <InputField
               placeholder="Name of the playlist."
