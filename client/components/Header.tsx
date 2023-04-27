@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <div className="absolute flex text-md px-4 py-2 text-emerald-400 gap-x-4 bg-stone-900 w-screen">
+    <div className="flex text-md px-4 py-2 text-emerald-400 gap-x-4 bg-stone-900 w-screen">
       <Link
         href="https://github.com/dhisonp"
         className="opacity-70 hover:opacity-100"

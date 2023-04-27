@@ -4,7 +4,6 @@ import Button from "@/components/Button";
 import { useRouter } from "next/router";
 import InputField from "@/components/InputField";
 import axios from "axios";
-import { log } from "console";
 import Header from "@/components/Header";
 
 interface FormValues {
@@ -169,8 +168,8 @@ const GeneratePlaylist = () => {
 
   const operationGuideString = {
     p1: `How do I use the app? `,
-    p2: "1. Enter the artist and name of the song or the Spotify link to the track.",
-    p3: 'e.g. "SZA - Good Days", "Easy by Mac Ayres", up to five.',
+    p2: "1. Enter the artist or name of the track or it's Spotify link.",
+    p3: 'e.g. "SZA - Good Days", "Easy by Mac Ayres", "Billie Eilish", etc.',
     p4: "2. Feel free to play with some of the niche options, like 'Acoustic' or 'Unpopular'.",
     p5: "3. 'Generate' will create a new playlist under your account and you'll be redirected!",
     p6: "Note: Albums and Artist recommendation in development.",
@@ -192,12 +191,12 @@ const GeneratePlaylist = () => {
       </Head>
       <Header />
 
-      <main className="flex flex-col justify-between overflow-auto pt-16 pb-8">
+      <main className="flex flex-col justify-between overflow-auto">
         <form
           className="flex flex-col items-center px-2"
           onSubmit={handleSubmit}
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col mb-4">
             <InputField
               placeholder="Title of the playlist."
               label="Title"
@@ -206,7 +205,7 @@ const GeneratePlaylist = () => {
               value={formValues.title}
               onChange={handleChange}
             />
-            <div className="items-center flex mt-2">
+            <div className="items-center flex">
               <label className="text-lg font-medium mr-12">Size</label>
               <span className="text-gray-500 mr-4 text-lg w-4">
                 {formValues.size}
@@ -222,7 +221,7 @@ const GeneratePlaylist = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row justify-center items-center sm:mt-8">
+          <div className="flex flex-col sm:flex-row justify-center items-center">
             <div className="flex flex-col">
               <InputField
                 placeholder={fieldPlaceholders["1"]}
@@ -285,20 +284,20 @@ const GeneratePlaylist = () => {
           </div>
           <div className="flex flex-col sm:flex-row justify-between items-center mt-4">
             {/* <button
-              className="m-2 border-2 py-2 px-4 border-emerald-600 rounded-full hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
+              className="m-2 border-2 py-2 px-4 border-emerald-600 rounded-2xl hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
               onClick={handleBack}
             >
               <span className="font-bold">&larr; Back</span>
             </button> */}
             <button
-              className="m-2 border-2 py-2 px-4 border-emerald-600 rounded-full hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
+              className="mb-2 mx-2 border-2 py-2 px-4 border-emerald-600 rounded-2xl hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
               type="reset"
               onClick={handleReset}
             >
               <span className="font-bold">Reset</span>
             </button>
             <button
-              className="m-2 border-2 py-2 px-4 border-emerald-700 rounded-full bg-emerald-700 text-gray-100 transition duration-200 hover:border-emerald-300 hover:bg-emerald-300 hover:text-fuchsia-900"
+              className="mb-2 mx-2 border-2 py-2 px-4 border-emerald-700 rounded-2xl bg-emerald-700 text-gray-100 transition duration-200 hover:border-emerald-300 hover:bg-emerald-300 hover:text-fuchsia-900"
               type="submit"
             >
               <span className="font-bold">Generate &rarr;</span>
@@ -306,7 +305,7 @@ const GeneratePlaylist = () => {
             {/* <button
               onClick={debug}
               type="button"
-              className="m-2 border-2 py-2 px-4 border-emerald-700 rounded-full bg-emerald-700 text-gray-100 transition duration-200 hover:border-emerald-300 hover:bg-emerald-300 hover:text-fuchsia-900"
+              className="m-2 border-2 py-2 px-4 border-emerald-700 rounded-2xl bg-emerald-700 text-gray-100 transition duration-200 hover:border-emerald-300 hover:bg-emerald-300 hover:text-fuchsia-900"
             >
               <span className="font-bold">Debug</span>
             </button> */}

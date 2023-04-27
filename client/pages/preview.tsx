@@ -65,9 +65,9 @@ const Preview = () => {
       <div className="items-center justify-center flex flex-col">
         <li
           onClick={() => onClickTrack(element.url)}
-          className="flex justify-between items-center px-8 py-4 w-5/6 cursor-pointer hover:opacity-75 transition duration-100"
+          className="flex flex-col sm:flex-row justify-between sm:items-center px-8 py-4 w-5/6 cursor-pointer hover:opacity-75 transition duration-100"
         >
-          <div className="w-6/12 flex items-center">
+          <div className="sm:w-6/12 flex items-center mb-4">
             <span className="mr-4 text-stone-500">{element.index}</span>
             <img src={element.album_cover_url} className="h-12 w-12 mr-2" />
             <div className="">
@@ -75,7 +75,7 @@ const Preview = () => {
               <p className="text-stone-600 text-sm">{element.artist}</p>
             </div>
           </div>
-          <div className="w-5/12 text-emerald-800">{element.album_name}</div>
+          <div className="sm:w-5/12 text-emerald-700 text-opacity-90">{element.album_name}</div>
         </li>
         <div className=" border-b-2 border-slate-700 w-5/6" />
       </div>
@@ -94,8 +94,8 @@ const Preview = () => {
       </Head>
       <Header />
 
-      <main className="flex flex-col justify-between items-center overflow-auto pt-20 px-4 min-h-full">
-        <h2 className="text-2xl text-fuchsia-900 mb-8 py-6 px-6 text-center border-2 border-fuchsia-900 flex items-center">
+      <main className="flex flex-col justify-between items-center overflow-auto pt-20 px-2 sm:px-4 min-h-full">
+        <h2 className="text-2xl font-medium text-fuchsia-800 mb-8 py-6 px-6 text-center border-2 border-fuchsia-800 flex items-center">
           <TbPlaylist size="1em" className="mr-4" />
           {title}
         </h2>
@@ -104,30 +104,22 @@ const Preview = () => {
             displayTrack(element)
           )}
         </ul>
-        <div className="flex items-center">
-          <button
-            className="border-2 py-2 px-4 border-emerald-600 rounded-full hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
-            onClick={handleBack}
-          >
-            <span className="font-bold">&larr; Back</span>
-          </button>
-          <div
-            onClick={handleCreate}
-            className="cursor-pointer m-12 px-6 py-6 border-fuchsia-800 border-2 flex text-left items-center justify-center group bg-fuchsia-300 text-fuchsia-800 focus:text-fuchsia-800 hover:bg-fuchsia-800 transition duration-200 hover:text-gray-100"
-          >
-            <BsArrowRightCircleFill
-              size="2em"
-              className="mr-4 group-hover:text-gray-100 transition duration-200"
-            />
-            <div className="flex flex-col">
-              <span className="text-lg font-medium">
-                Export{" "}
-                <span className="text-emerald-800 group-hover:text-gray-100 transition duration-200">
-                  {title}
-                </span>
+        <div
+          onClick={handleCreate}
+          className="cursor-pointer m-12 px-6 py-6 border-fuchsia-800 border-2 flex text-left items-center justify-center group bg-fuchsia-300 text-fuchsia-800 focus:text-fuchsia-800 hover:bg-fuchsia-800 transition duration-200 hover:text-gray-100"
+        >
+          <BsArrowRightCircleFill
+            size="2em"
+            className="mr-4 group-hover:text-gray-100 transition duration-200"
+          />
+          <div className="flex flex-col">
+            <span className="text-lg font-medium">
+              Export{" "}
+              <span className="text-emerald-800 group-hover:text-gray-100 transition duration-200">
+                {title}
               </span>
-              <span className="text-base">to Spotify &rarr;</span>
-            </div>
+            </span>
+            <span className="text-base">to Spotify &rarr;</span>
           </div>
         </div>
       </main>
