@@ -62,7 +62,10 @@ const Preview = () => {
 
   const displayTrack = (element: Recommendation) => {
     return (
-      <div className="items-center justify-center flex flex-col">
+      <div
+        className="items-center justify-center flex flex-col"
+        key={element.index}
+      >
         <li
           onClick={() => onClickTrack(element.url)}
           className="flex flex-col sm:flex-row justify-between sm:items-center px-8 py-4 w-5/6 cursor-pointer hover:opacity-75 transition duration-100"
@@ -75,7 +78,9 @@ const Preview = () => {
               <p className="text-stone-600 text-sm">{element.artist}</p>
             </div>
           </div>
-          <div className="sm:w-5/12 text-emerald-700 text-opacity-90">{element.album_name}</div>
+          <div className="sm:w-5/12 text-emerald-700 text-opacity-90">
+            {element.album_name}
+          </div>
         </li>
         <div className=" border-b-2 border-slate-700 w-5/6" />
       </div>
