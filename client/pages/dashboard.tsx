@@ -148,7 +148,7 @@ const Dashboard = () => {
                   <span className="text-gray-600 text-base sm:text-lg">
                     Welcome,{" "}
                   </span>
-                  <h1 className="font-semi text-2xl sm:text-4xl text-fuchsia-950">
+                  <h1 className="font-semi text-2xl sm:text-4xl text-fuchsia-950 font-serif">
                     {userData.username}
                   </h1>
                 </div>

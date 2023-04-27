@@ -47,7 +47,9 @@ def recommend():
             "id": track['id'],
             "url": track['external_urls']['spotify'],
             "artist": track['artists'][0]['name'],
-            "track_name": track['name']
+            "track_name": track['name'],
+            "album_name": track['album']['name'],
+            "album_cover_url": track['album']['images'][0]['url']
         }
         table.append(obj)
     return jsonify(table)

@@ -24,6 +24,7 @@ def create_playlist():
     user_id = sp.me()['id']
     data = request.get_json()
     playlist_name = data['title']
+    seeds = data['seeds']
     # NOTE Temporary hardcode
     is_public = True
     is_collaborative = False
@@ -31,10 +32,10 @@ def create_playlist():
     created, result = None, None
 
     # Send a POST request to /recommend
-    server_url = os.environ.get('SERVER_URL')
-    seeds = requests.post(server_url + '/recommend',
-                          json=data, headers={"Authorization": "Bearer " + auth_token})
-    seeds = seeds.json()
+    # server_url = os.environ.get('SERVER_URL')
+    # seeds = requests.post(server_url + '/recommend',
+    #                       json=data, headers={"Authorization": "Bearer " + auth_token})
+    # seeds = seeds.json()
     seeds = [item['id'] for item in seeds]
 
     # TODO Fix -> description = 'Playlist created with Spolify.'

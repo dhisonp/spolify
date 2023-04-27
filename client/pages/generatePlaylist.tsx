@@ -24,7 +24,7 @@ interface FormValues {
 const GeneratePlaylist = () => {
   const server = process.env.SERVER_URL;
   const router = useRouter();
-  const [formValues, setFormValues] = useState<FormValues>({
+  const initialValues: FormValues = {
     title: "",
     uris: {
       uri1: "",
@@ -35,8 +35,9 @@ const GeneratePlaylist = () => {
     },
     isAcoustic: false,
     isIndie: false,
-    size: 15,
-  });
+    size: 8,
+  };
+  const [formValues, setFormValues] = useState<FormValues>(initialValues);
   const [displayHelper, toggleHelper] = useState(false);
 
   const validate = () => {
@@ -120,14 +121,27 @@ const GeneratePlaylist = () => {
       return;
     }
     axios
-      .post(server + "/create_playlist_custom", formValues, {
+      // .post(server + "/create_playlist_custom", formValues, {
+      .post(server + "/recommend", formValues, {
         headers: {
           Authorization: "Bearer " + token,
         },
       })
       .then((response) => {
         if (response.data != null) {
-          window.open(response.data, "_blank")?.focus();
+          // window.open(response.data, "_blank")?.focus();
+          const data = JSON.stringify(response.data);
+          router.push(
+            {
+              pathname: "/preview",
+              query: {
+                data: data,
+                title: formValues.title,
+              },
+            },
+            "/preview",
+            { shallow: true }
+          );
         }
       })
       .catch((error) => {
@@ -148,16 +162,27 @@ const GeneratePlaylist = () => {
     toggleHelper(true);
   };
 
+  const handleReset = (e: any) => {
+    e.preventDefault();
+    setFormValues(initialValues);
+  };
+
   const operationGuideString = {
-    p1: `Operation Guide `,
-    p2: "1. Enter the artist and name of the song or just the link.",
-    p3: 'e.g. "SZA - Good Days", "Billie Happier Than Ever", up to five.',
+    p1: `How do I use the app? `,
+    p2: "1. Enter the artist and name of the song or the Spotify link to the track.",
+    p3: 'e.g. "SZA - Good Days", "Easy by Mac Ayres", up to five.',
     p4: "2. Feel free to play with some of the niche options, like 'Acoustic' or 'Unpopular'.",
     p5: "3. 'Generate' will create a new playlist under your account and you'll be redirected!",
     p6: "Note: Albums and Artist recommendation in development.",
   };
 
-  const fieldPlaceholder = "Artist + Name or Link";
+  const fieldPlaceholders = {
+    1: "SZA - Good Days",
+    2: "Easy by Mac Ayres",
+    3: "https://open.spotify.com/track/1jBKtzlwTVtCrScpiiHiKT?si=dee3a26e7b1d4758",
+    4: "Artist + track name, or just a link",
+    5: "Artist + track name, or just a link",
+  };
 
   return (
     <div className=" bg-stone-100 mx-auto text-gray-900 min-h-screen">
@@ -168,28 +193,13 @@ const GeneratePlaylist = () => {
       <Header />
 
       <main className="flex flex-col justify-between overflow-auto pt-16 pb-8">
-        <div className="text-gray-500 mb-3 text-left px-4 flex-col flex items-center">
-          <button onClick={handleGuide}>
-            <p className="text-gray-500 text-base hover:text-gray-400 mb-2 mt-4">
-              {operationGuideString.p1}&rarr;
-            </p>
-          </button>
-          {displayHelper && (
-            <div className="text-gray-500">
-              <p>{operationGuideString.p2}</p>
-              <p>{operationGuideString.p3}</p>
-              <p>{operationGuideString.p4}</p>
-              <p>{operationGuideString.p5}</p>
-              <span className="text-sm text-gray-400">
-                {operationGuideString.p6}
-              </span>
-            </div>
-          )}
-        </div>
-        <form className="flex flex-col items-center px-2" onSubmit={handleSubmit}>
+        <form
+          className="flex flex-col items-center px-2"
+          onSubmit={handleSubmit}
+        >
           <div className="flex flex-col">
             <InputField
-              placeholder="Name of the playlist."
+              placeholder="Title of the playlist."
               label="Title"
               className="mt-2"
               name="title"
@@ -212,38 +222,38 @@ const GeneratePlaylist = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row justify-center items-center mt-4 sm:mt-8">
-            <div className="flex flex-col p-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center sm:mt-8">
+            <div className="flex flex-col">
               <InputField
-                placeholder={fieldPlaceholder}
+                placeholder={fieldPlaceholders["1"]}
                 label="1. "
                 name="uri1"
                 value={formValues.uris.uri1}
                 onChange={handleChange}
               />
               <InputField
-                placeholder={fieldPlaceholder}
+                placeholder={fieldPlaceholders["2"]}
                 label="2. "
                 name="uri2"
                 value={formValues.uris.uri2}
                 onChange={handleChange}
               />
               <InputField
-                placeholder={fieldPlaceholder}
+                placeholder={fieldPlaceholders["3"]}
                 label="3. "
                 name="uri3"
                 value={formValues.uris.uri3}
                 onChange={handleChange}
               />
               <InputField
-                placeholder={fieldPlaceholder}
+                placeholder={fieldPlaceholders["4"]}
                 label="4. "
                 name="uri4"
                 value={formValues.uris.uri4}
                 onChange={handleChange}
               />
               <InputField
-                placeholder={fieldPlaceholder}
+                placeholder={fieldPlaceholders["5"]}
                 label="5. "
                 name="uri5"
                 value={formValues.uris.uri5}
@@ -273,16 +283,17 @@ const GeneratePlaylist = () => {
               </li>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row justify-between items-center">
-            <button
+          <div className="flex flex-col sm:flex-row justify-between items-center mt-4">
+            {/* <button
               className="m-2 border-2 py-2 px-4 border-emerald-600 rounded-full hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
               onClick={handleBack}
             >
               <span className="font-bold">&larr; Back</span>
-            </button>
+            </button> */}
             <button
               className="m-2 border-2 py-2 px-4 border-emerald-600 rounded-full hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
               type="reset"
+              onClick={handleReset}
             >
               <span className="font-bold">Reset</span>
             </button>
@@ -301,6 +312,25 @@ const GeneratePlaylist = () => {
             </button> */}
           </div>
         </form>
+
+        <div className="text-gray-500 mb-3 text-left px-4 flex-col flex items-center">
+          <button onClick={handleGuide}>
+            <p className="text-gray-500 text-base hover:text-gray-400 mb-2 mt-4">
+              {operationGuideString.p1}&rarr;
+            </p>
+          </button>
+          {displayHelper && (
+            <div className="text-gray-500 border-2 border-emerald-600 border-opacity-70 bg-stone-200 bg-opacity-30 px-6 py-4">
+              <p>{operationGuideString.p2}</p>
+              <p>{operationGuideString.p3}</p>
+              <p>{operationGuideString.p4}</p>
+              <p>{operationGuideString.p5}</p>
+              <span className="text-sm text-gray-400">
+                {operationGuideString.p6}
+              </span>
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );

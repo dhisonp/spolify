@@ -22,7 +22,7 @@ const Header = () => {
         Repo
       </Link>
       <Link
-        href="https://github.com/dhisonp/spolify"
+        href="/"
         className=" ml-auto hidden sm:block"
       >
         <span className="text-gray-500">
