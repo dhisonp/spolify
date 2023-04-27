@@ -12,7 +12,7 @@ module.exports = {
     extend: {},
     fontFamily: {
       sans: ["Inter", "sans-serif"],
-      serif: ["Merriweather", "serif"],
+      serif: ["Libre Caslon Text", "serif"],
       mono: ['"JetBrains Mono"', "mono"],
       display: ["Bebas Neue", "display"],
     },
