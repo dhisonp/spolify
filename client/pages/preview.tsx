@@ -79,8 +79,8 @@ const Preview = () => {
           onClick={() => onClickTrack(element.url)}
           className="flex flex-col sm:flex-row justify-between sm:items-center px-8 py-4 w-5/6 cursor-pointer hover:opacity-75 transition duration-100"
         >
-          <div className="sm:w-6/12 flex items-center mb-4">
-            <span className="mr-4 text-stone-500">{element.index}</span>
+          <div className="sm:w-6/12 flex items-center mb-2 sm:mb-0">
+            <span className="w-6 text-stone-500 text-left">{element.index}</span>
             <img src={element.album_cover_url} className="h-12 w-12 mr-2" />
             <div className="">
               <p className="text-fuchsia-800">{element.track_name}</p>
@@ -108,7 +108,7 @@ const Preview = () => {
       </Head>
       <Header />
 
-      <main className="flex flex-col justify-between items-center overflow-auto pt-20 px-2 sm:px-4 min-h-full">
+      <main className="flex flex-col justify-between items-center overflow-auto pt-8 px-2 sm:px-4 min-h-full">
         <h2 className="text-2xl font-medium text-fuchsia-800 mb-8 py-6 px-6 text-center border-2 border-fuchsia-800 flex items-center">
           <TbPlaylist size="1em" className="mr-4" />
           {title}
