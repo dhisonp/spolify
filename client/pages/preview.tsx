@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { BsArrowRightCircleFill } from "react-icons/bs";
 import { TbPlaylist } from "react-icons/tb";
 import axios from "axios";
+import Link from "next/link";
 
 interface Recommendation {
   artist: string;
@@ -18,6 +19,14 @@ interface Recommendation {
 const Preview = () => {
   const router = useRouter();
   const { data, title }: any = router.query;
+  if (!data) {
+    return (
+      <div>
+        Please access the page through the app. Click <Link href="/" className="underline">here</Link>{" "}
+        to get back to the homepage.
+      </div>
+    );
+  }
   const recommendations: Recommendation[] = JSON.parse(data);
   console.log(recommendations);
 

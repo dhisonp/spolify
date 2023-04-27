@@ -6,6 +6,7 @@ import axios from "axios";
 import Header from "@/components/Header";
 import HelpBox from "@/components/HelpBox";
 import Link from "next/link";
+import Divider from "@/components/Divider";
 
 interface userData {
   username: string;
@@ -168,7 +169,8 @@ const Dashboard = () => {
                 </h1>
               </div>
             </div>
-            <div className="mt-2 mb-4 text-lg px-6 py-3 w-auto items-center justify-center flex flex-col gap-y-2 sm:flex-row sm:gap-y-0">
+            <Divider className="my-4 w-5/6 sm:w-3/4"/>
+            <div className="mb-4 text-lg px-6 py-3 w-auto items-center justify-center flex flex-col gap-y-2 sm:flex-row sm:gap-y-0">
               <Button
                 onClick={handleLogOut}
                 className="border-red-700 hover:bg-red-700 text-red-700"
@@ -184,7 +186,7 @@ const Dashboard = () => {
               {DEV_MODE && <Button onClick={handleOnClickSaved}>Debug</Button>}
             </div>
             <div className="justify-center items-center flex flex-col sm:w-4/6">
-              <span className="text-gray-500 mb-4">What's the difference?</span>
+              <span className="text-gray-500 mb-2">What's the difference?</span>
               <HelpBox visible={true} className="mt-2">
                 {helperText1} {helperText2}
               </HelpBox>
@@ -198,7 +200,14 @@ const Dashboard = () => {
                 If you are stuck in this screen, you are probably logged out.
               </p>
               <p>
-                Press <Link href={"/"} className="underline text-stone-600 hover:text-stone-500">here</Link> to get back to home page.
+                Press{" "}
+                <Link
+                  href={"/"}
+                  className="underline text-stone-600 hover:text-stone-500"
+                >
+                  here
+                </Link>{" "}
+                to get back to home page.
               </p>
             </HelpBox>
           </div>

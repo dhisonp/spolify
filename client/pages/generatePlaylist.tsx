@@ -184,16 +184,16 @@ const GeneratePlaylist = () => {
   };
 
   return (
-    <div className=" bg-stone-100 mx-auto text-gray-900 min-h-screen">
+    <div className=" bg-stone-100 text-gray-900 min-h-screen flex flex-col">
       <Head>
         <title>Generate Playlist</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
 
-      <main className="flex flex-col justify-between overflow-auto">
+      <main className="flex flex-col sm:flex-grow sm:justify-center overflow-auto">
         <form
-          className="flex flex-col items-center px-2"
+          className="flex flex-col items-center px-2 justify-center"
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col mb-4">
