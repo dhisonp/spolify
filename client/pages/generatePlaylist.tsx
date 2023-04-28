@@ -140,7 +140,7 @@ const GeneratePlaylist = () => {
     //   return;
     // }
 
-    // Check if user is logged in
+    // Check if user is logged in from the client side
     const token = localStorage.getItem("access_token");
     if (!token) {
       console.error("No access token found in local storage");

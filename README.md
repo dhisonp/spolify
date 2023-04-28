@@ -1,50 +1,50 @@
 # Spolify - Playlist Generator and Song Recommender
 
-Transform your music listening experience with Spolify - barebones yet effective music recommender. Personalize your music with adjustable settings and create tailored playlists.
+### What is Spolify?
+Enhance your music discovery experience with Spolify– a barebones yet effective music recommender. Adjust your recommendation settings and create tailored playlists.
+### Anything to know about?
+This app is still under development, and Spotify requires the developer to register potential authenticated users. Please contact me if you're interested in testing the app.
+### Developer and Technical Notes
+Our application is currently in its prototype/MVP stage and will continue to undergo development to further enhance its functionality and user experience. While the application's user interface boasts a minimalistic design, we have made sure it is visually pleasing while prioritizing functionality. For more information on our technology stack and upcoming updates, please refer to the repository linked at the top of this page.
 
-Freedom and full control to your ears.
 
 ## Screenshots
 
-<span><i>These are not final.</i> Current stage of the app is VIP.</span>
-![Screenshot 1](./assets/nss1.png)
-![Screenshot 2](./assets/nss2.png)
+<span><i>UI/UX are not final.</i></span>
+![Screenshot 1](./assets/spss1.png)
+![Screenshot 1](./assets/spss2.png)
+![Screenshot 1](./assets/spss3.png)
+![Screenshot 1](./assets/spss4.png)
 
 ## Tech Stack
 
 ### Front-end:
-
 -   <b>Next.js</b>/TypeScript
 -   TailwindCSS
 
 ### Back-end
-
 -   <b>Flask</b>/Python
 -   Spotipy (Spotify API Python Wrapper)
 
-### Deployment
-
+### Deployment / DevOps
 -   Docker
 -   NGINX
--   Vercel for front-end
--   DigitalOcean for back-end
+-   Vercel
+-   DigitalOcean (VPS)
 
 ## Basic Features
-
 -   Adjust various settings like popularity, dancibility, acousticness, etc. to customize the playlist.
 -   Login to automatically generate playlist based on user's top songs.
--   Input up to 5 favorite <s>artists or</s> songs to generate a playlist.
--   Mini-player to preview the songs.
+-   Input up to 5 favorite artists, albums or songs to generate a playlist.
 
 ## Developer Notes
 
 -   Integration with Spotify Web API
 -   Secure OAuth2 authentication flow
--   Simple, lightweight backend using Flask/Python.
--   Dockerized backend, deployed to Digital Ocean.
+-   Efficient and lightweight backend using Flask/Python.
+-   Dockerization for easy deployment and migration.
+-   NGINX as a secure and lightweight web server with SSL certification.
 
-## Future Updates
-
--   Native iOS app built on Swift and hopefully be available in the app store.
+## In Development
 -   Mini player for song preview.
--   Input song/artist name into search instead of requiring link.
+-   Fun Spotify analytics and statistics
