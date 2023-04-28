@@ -1,10 +1,14 @@
 import Header from "@/components/Header";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { BsArrowRightCircleFill } from "react-icons/bs";
 import { TbPlaylist } from "react-icons/tb";
 import axios from "axios";
 import Link from "next/link";
+import Alert from "@/components/Alert";
+import Dashboard from "./dashboard";
+import Error from "./error";
 
 interface Recommendation {
   artist: string;
@@ -20,15 +24,25 @@ const Preview = () => {
   const router = useRouter();
   const { data, title }: any = router.query;
   if (!data) {
-    return (
-      <div>
-        Please access the page through the app. Click <Link href="/" className="underline">here</Link>{" "}
-        to get back to the homepage.
-      </div>
-    );
+    return <Error />;
   }
   const recommendations: Recommendation[] = JSON.parse(data);
-  console.log(recommendations);
+
+  const [displayAlert, toggleAlert] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: any;
+
+    if (displayAlert) {
+      timeoutId = setTimeout(() => {
+        toggleAlert(false);
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [displayAlert]);
 
   const onClickTrack = (url: string) => {
     window.open(url, "_blank")?.focus();
@@ -57,6 +71,7 @@ const Preview = () => {
       .then((response) => {
         if (response.data != null) {
           window.open(response.data, "_blank")?.focus();
+          toggleAlert(true);
         }
       })
       .catch((error) => {
@@ -77,10 +92,12 @@ const Preview = () => {
       >
         <li
           onClick={() => onClickTrack(element.url)}
-          className="flex flex-col sm:flex-row justify-between sm:items-center px-8 py-4 w-5/6 cursor-pointer hover:opacity-75 transition duration-100"
+          className="flex flex-col sm:flex-row justify-between sm:items-center px-4 sm:px-8 py-4 w-5/6 cursor-pointer hover:opacity-75 transition duration-100"
         >
           <div className="sm:w-6/12 flex items-center mb-2 sm:mb-0">
-            <span className="w-6 text-stone-500 text-left">{element.index}</span>
+            <span className="w-6 text-stone-500 text-left">
+              {element.index}
+            </span>
             <img src={element.album_cover_url} className="h-12 w-12 mr-2" />
             <div className="">
               <p className="text-fuchsia-800">{element.track_name}</p>
@@ -107,6 +124,13 @@ const Preview = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+
+      <Alert
+        className="alert-success"
+        visible={displayAlert}
+        setVisible={toggleAlert}
+        message="Playlist created! Check your Spotify account."
+      />
 
       <main className="flex flex-col justify-between items-center overflow-auto pt-8 px-2 sm:px-4 min-h-full">
         <h2 className="text-2xl font-medium text-fuchsia-800 mb-8 py-6 px-6 text-center border-2 border-fuchsia-800 flex items-center">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NextPage } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
 import { BsSpotify } from "react-icons/bs";
@@ -11,7 +12,6 @@ const Home: NextPage = () => {
   // const [spotifyAuthURL, setSpotifyAuthURL] = useState<string>("");
   const server = process.env.SERVER_URL;
   console.log(server);
-  const isDev = process.env.DEV_MODE;
 
   const handleLogin = () => {
     axios

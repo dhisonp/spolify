@@ -1,10 +1,12 @@
 import Head from "next/head";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Button from "@/components/Button";
 import { useRouter } from "next/router";
 import InputField from "@/components/InputField";
 import axios from "axios";
 import Header from "@/components/Header";
+import Alert from "@/components/Alert";
+import Error from "./error";
 
 interface FormValues {
   title: string;
@@ -34,10 +36,32 @@ const GeneratePlaylist = () => {
     },
     isAcoustic: false,
     isIndie: false,
-    size: 8,
+    size: 12,
   };
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
   const [displayHelper, toggleHelper] = useState(false);
+  const [displayAlert, toggleAlert] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: any;
+
+    if (displayAlert) {
+      timeoutId = setTimeout(() => {
+        toggleAlert(false);
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [displayAlert]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      window.location.href = "/";
+    }
+  }, []);
 
   const validate = () => {
     var isValid = true;
@@ -107,21 +131,32 @@ const GeneratePlaylist = () => {
       });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const isValid = validate();
-    if (!isValid) {
-      alert("Please check your inputs!");
-      return;
-    }
+
+    // const isValid = validate();
+    // if (!isValid) {
+    //   toggleAlert(true);
+    //   return;
+    // }
+
+    // Check if user is logged in
     const token = localStorage.getItem("access_token");
     if (!token) {
       console.error("No access token found in local storage");
       return;
     }
+
+    // To accomodate for missing values
+    const postData: FormValues = {
+      title: formValues.title == "" ? "Spolify Untitled" : formValues.title,
+      uris: formValues.uris,
+      isAcoustic: formValues.isAcoustic,
+      isIndie: formValues.isIndie,
+      size: formValues.size,
+    };
     axios
-      // .post(server + "/create_playlist_custom", formValues, {
-      .post(server + "/recommend", formValues, {
+      .post(server + "/recommend", postData, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -135,7 +170,7 @@ const GeneratePlaylist = () => {
               pathname: "/preview",
               query: {
                 data: data,
-                title: formValues.title,
+                title: postData.title,
               },
             },
             "/preview",
@@ -191,7 +226,32 @@ const GeneratePlaylist = () => {
       </Head>
       <Header />
 
-      <main className="flex flex-col sm:flex-grow sm:justify-center overflow-auto">
+      <Alert
+        className="alert-error"
+        visible={displayAlert}
+        setVisible={toggleAlert}
+        message="Please make sure Title is filled."
+      />
+
+      <main className="flex flex-col sm:flex-grow sm:justify-center overflow-auto sm:pb-0 sm:pt-0 pt-4 pb-16">
+        <div className="text-gray-500 mb-3 text-left px-4 flex-col flex items-center">
+          {/* <button onClick={handleGuide} className="p-2 mt-2"> */}
+          <p className="text-gray-500 text-base hover:text-gray-400 p-2 mt-2">
+            {operationGuideString.p1}&rarr;
+          </p>
+          {/* </button> */}
+          {true && (
+            <div className="text-gray-500 border-2 border-emerald-600 border-opacity-70 bg-stone-200 bg-opacity-30 px-6 py-4">
+              <p>{operationGuideString.p2}</p>
+              <p>{operationGuideString.p3}</p>
+              <p>{operationGuideString.p4}</p>
+              <p>{operationGuideString.p5}</p>
+              <span className="text-sm text-gray-400">
+                {operationGuideString.p6}
+              </span>
+            </div>
+          )}
+        </div>
         <form
           className="flex flex-col items-center px-2 justify-center"
           onSubmit={handleSubmit}
@@ -200,13 +260,13 @@ const GeneratePlaylist = () => {
             <InputField
               placeholder="Title of the playlist."
               label="Title"
-              className="mt-2"
+              className="mb-2"
               name="title"
               value={formValues.title}
               onChange={handleChange}
             />
             <div className="items-center flex">
-              <label className="text-lg font-medium mr-12">Size</label>
+              <label className="text-lg font-medium mr-14">Size</label>
               <span className="text-gray-500 mr-4 text-lg w-4">
                 {formValues.size}
               </span>
@@ -217,7 +277,7 @@ const GeneratePlaylist = () => {
                 name="size"
                 value={formValues.size}
                 onChange={handleChange}
-                className="cursor-pointer range accent-fuchsia-700 w-3/5"
+                className="cursor-pointer range range-xs accent-fuchsia-700 w-3/5"
               />
             </div>
           </div>
@@ -262,7 +322,7 @@ const GeneratePlaylist = () => {
             <div className="flex flex-col mx-4">
               <li className="flex flex-row mb-2 items-center">
                 <input
-                  className="mr-2 align-middle"
+                  className="mr-2 align-middle checkbox checkbox-sm"
                   type="checkbox"
                   name="isAcoustic"
                   checked={formValues.isAcoustic}
@@ -272,7 +332,7 @@ const GeneratePlaylist = () => {
               </li>
               <li className="flex flex-row mb-2 items-center">
                 <input
-                  className="mr-2 align-middle"
+                  className="mr-2 align-middle checkbox checkbox-sm"
                   type="checkbox"
                   name="isIndie"
                   checked={formValues.isIndie}
@@ -282,7 +342,7 @@ const GeneratePlaylist = () => {
               </li>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row justify-between items-center mt-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center mt-4 w-full sm:w-auto">
             {/* <button
               className="m-2 border-2 py-2 px-4 border-emerald-600 rounded-2xl hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
               onClick={handleBack}
@@ -290,14 +350,14 @@ const GeneratePlaylist = () => {
               <span className="font-bold">&larr; Back</span>
             </button> */}
             <button
-              className="mb-2 mx-2 border-2 py-2 px-4 border-emerald-600 rounded-2xl hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
+              className="w-4/6 sm:w-auto mb-2 mx-2 border-2 py-3 sm:py-2 px-4 border-emerald-600 rounded-2xl hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
               type="reset"
               onClick={handleReset}
             >
               <span className="font-bold">Reset</span>
             </button>
             <button
-              className="mb-2 mx-2 border-2 py-2 px-4 border-emerald-700 rounded-2xl bg-emerald-700 text-gray-100 transition duration-200 hover:border-emerald-300 hover:bg-emerald-300 hover:text-fuchsia-900"
+              className="sm:w-auto w-5/6 mb-2 mx-2 border-2 py-3 sm:py-2 px-4 border-emerald-700 rounded-2xl bg-emerald-700 text-gray-100 transition duration-200 hover:border-emerald-300 hover:bg-emerald-300 hover:text-fuchsia-900"
               type="submit"
             >
               <span className="font-bold">Generate &rarr;</span>
@@ -311,25 +371,6 @@ const GeneratePlaylist = () => {
             </button> */}
           </div>
         </form>
-
-        <div className="text-gray-500 mb-3 text-left px-4 flex-col flex items-center">
-          <button onClick={handleGuide}>
-            <p className="text-gray-500 text-base hover:text-gray-400 mb-2 mt-4">
-              {operationGuideString.p1}&rarr;
-            </p>
-          </button>
-          {displayHelper && (
-            <div className="text-gray-500 border-2 border-emerald-600 border-opacity-70 bg-stone-200 bg-opacity-30 px-6 py-4">
-              <p>{operationGuideString.p2}</p>
-              <p>{operationGuideString.p3}</p>
-              <p>{operationGuideString.p4}</p>
-              <p>{operationGuideString.p5}</p>
-              <span className="text-sm text-gray-400">
-                {operationGuideString.p6}
-              </span>
-            </div>
-          )}
-        </div>
       </main>
     </div>
   );
