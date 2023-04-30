@@ -1,12 +1,12 @@
 import Head from "next/head";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import Button from "@/components/Button";
 import { useRouter } from "next/router";
 import InputField from "@/components/InputField";
 import axios from "axios";
 import Header from "@/components/Header";
 import Alert from "@/components/Alert";
-import Error from "./error";
+import Checkbox from "@/components/Checkbox";
+import Slider from "@/components/Slider";
 
 interface FormValues {
   title: string;
@@ -18,7 +18,9 @@ interface FormValues {
     uri5: string;
   };
   isIndie: boolean;
+  isLive: boolean;
   isAcoustic: boolean;
+  valence: number;
   size: number;
 }
 
@@ -36,11 +38,14 @@ const GeneratePlaylist = () => {
     },
     isAcoustic: false,
     isIndie: false,
+    isLive: false,
     size: 12,
+    valence: 5,
   };
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
   const [displayHelper, toggleHelper] = useState(false);
   const [displayAlert, toggleAlert] = useState(false);
+  const [valenceEnabled, toggleValence] = useState(false);
 
   useEffect(() => {
     let timeoutId: any;
@@ -83,6 +88,7 @@ const GeneratePlaylist = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
+    const sliders = ["size", "valence"];
 
     if (name.startsWith("uri")) {
       // If the name starts with "uris.", update the `uris` object
@@ -94,10 +100,11 @@ const GeneratePlaylist = () => {
           [uriName]: value,
         },
       }));
-    } else if (name === "size") {
+      // check for size slider
+    } else if (sliders.includes(name)) {
       setFormValues((prevValues) => ({
         ...prevValues,
-        size: parseInt(value),
+        [name]: parseInt(value),
       }));
     } else {
       // Otherwise, update the other fields as before
@@ -153,7 +160,9 @@ const GeneratePlaylist = () => {
       uris: formValues.uris,
       isAcoustic: formValues.isAcoustic,
       isIndie: formValues.isIndie,
+      isLive: formValues.isLive,
       size: formValues.size,
+      valence: formValues.valence,
     };
     axios
       .post(server + "/recommend", postData, {
@@ -216,6 +225,11 @@ const GeneratePlaylist = () => {
     3: "https://open.spotify.com/track/1jBKtzlwTVtCrScpiiHiKT?si=dee3a26e7b1d4758",
     4: "Artist + track name, or just a link",
     5: "Artist + track name, or just a link",
+  };
+
+  const tooltips = {
+    valence:
+      "A measure describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
   };
 
   return (
@@ -319,27 +333,37 @@ const GeneratePlaylist = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="flex flex-col mx-4">
-              <li className="flex flex-row mb-2 items-center">
-                <input
-                  className="mr-2 align-middle checkbox checkbox-sm"
-                  type="checkbox"
-                  name="isAcoustic"
-                  checked={formValues.isAcoustic}
-                  onChange={handleChange}
-                />
-                <label className="text-lg font-medium">Acoustic</label>
-              </li>
-              <li className="flex flex-row mb-2 items-center">
-                <input
-                  className="mr-2 align-middle checkbox checkbox-sm"
-                  type="checkbox"
-                  name="isIndie"
-                  checked={formValues.isIndie}
-                  onChange={handleChange}
-                />
-                <label className="text-lg font-medium">Unpopular</label>
-              </li>
+            <div className="flex flex-col mx-4" id="audioFeatures">
+              <Slider
+                disabled={!valenceEnabled}
+                label="Valence"
+                min={1}
+                max={10}
+                name="valence"
+                value={formValues.valence}
+                onChange={handleChange}
+                tooltip={true}
+                dataTip={tooltips.valence}
+                toggle={() => toggleValence(!valenceEnabled)}
+              />
+              <Checkbox
+                name="isLive"
+                checked={formValues.isLive}
+                label="Live/Performance"
+                onChange={handleChange}
+              />
+              <Checkbox
+                name="isAcoustic"
+                checked={formValues.isAcoustic}
+                label="Acoustic"
+                onChange={handleChange}
+              />
+              <Checkbox
+                name="isIndie"
+                checked={formValues.isIndie}
+                label="Unpopular/Indie"
+                onChange={handleChange}
+              />
             </div>
           </div>
           <div className="flex flex-col sm:flex-row justify-between items-center mt-4 w-full sm:w-auto">
