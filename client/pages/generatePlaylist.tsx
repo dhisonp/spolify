@@ -216,7 +216,7 @@ const GeneratePlaylist = () => {
     p3: 'e.g. "SZA - Good Days", "Easy by Mac Ayres", "Billie Eilish", etc.',
     p4: "2. Feel free to play with some of the niche options, like 'Acoustic' or 'Less Popular'.",
     p5: "3. 'Generate' will create a new playlist under your account and you'll be redirected!",
-    p6: "Note: Albums and Artist recommendation in development.",
+    p6: "Note: Valence and Live options is undergoing temporary testing, so it won't work for now (version a1.0)",
   };
 
   const fieldPlaceholders = {
