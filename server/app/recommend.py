@@ -16,6 +16,9 @@ def recommend():
     title = data['title']
     is_acoustic = data['isAcoustic']
     is_indie = data['isIndie']
+    is_live = data['isLive']
+    valence = data['valence']
+
     size = data['size']
     seeds = []
     for _, seed in data['uris'].items():
@@ -29,17 +32,23 @@ def recommend():
 
     # Recommendation API
     # Define sub attributes
-    min_acousticness = 0.6 if is_acoustic else 0.0
+    min_acousticness = 0.5 if is_acoustic else 0.0
     max_popularity = 40 if is_indie else 100
+    min_liveness = 0.5 if is_live else 0
 
-    results = sp.recommendations(
-        limit=size,
-        seed_tracks=seeds,
-        min_acousticness=min_acousticness,
-        max_popularity=max_popularity
-        # TODO figure out how to seed_genres/_tracks, considering maximum of 5 seeds
-        # seed_genres=seed_genres,
-    )
+    # Set params dictionary to dynamically adjust the parameters on recommendations()
+    params = {
+        "limit": size,
+        "seed_tracks": seeds,
+        "min_acousticness": min_acousticness,
+        "max_popularity": max_popularity,
+        "min_liveness": min_liveness,
+    }
+    # Conditional params
+    if valence > 0:
+        params["min_valence"]: valence
+
+    results = sp.recommendations(**params)
     table = []
     for idx, track in enumerate((results['tracks'])):
         obj = {

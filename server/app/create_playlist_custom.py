@@ -25,7 +25,7 @@ def create_playlist():
     data = request.get_json()
     playlist_name = data['title']
     seeds = data['seeds']
-    # NOTE Temporary hardcode
+    # NOTE Playlist access params
     is_public = True
     is_collaborative = False
 
@@ -40,8 +40,11 @@ def create_playlist():
 
     # TODO Fix -> description = 'Playlist created with Spolify.'
     try:  # Create a new playlist
-        created = sp.user_playlist_create(user_id, playlist_name,
-                                          public=is_public, collaborative=is_collaborative)
+        created = sp.user_playlist_create(user_id,
+                                          playlist_name,
+                                          public=is_public,
+                                          collaborative=is_collaborative,
+                                          description="Created with SpoLify.")
     except SpotifyException as err:
         error(err)
     try:

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <div className="flex text-md text-lg px-4 py-2 text-emerald-400 gap-x-4 bg-stone-900 w-screen">
+    <div className="flex text-md text-lg px-4 py-2 text-emerald-400 gap-x-4 bg-slate-900 w-screen">
       <Link
         href="https://github.com/dhisonp"
         className="opacity-70 hover:opacity-100"
@@ -25,8 +25,8 @@ const Header = () => {
         href="/"
         className=" ml-auto hidden sm:block"
       >
-        <span className="text-gray-500">
-          Spolify <span className="text-gray-600">by </span>Dhison Padma
+        <span className="text-slate-500">
+          Spolify <span className="text-slate-600">by </span>Dhison Padma
         </span>
       </Link>
     </div>

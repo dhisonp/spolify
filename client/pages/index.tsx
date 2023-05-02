@@ -43,7 +43,7 @@ const Home: NextPage = () => {
       <Header />
 
       <main className="flex flex-col items-center overflow-hidden">
-        <div className="bg-stone-900 w-screen justify-center flex items-end p-4 pt-36">
+        <div className="bg-slate-900 w-screen justify-center flex items-end p-4 pt-36">
           <div className="font-display text-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-fuchsia-500">
             <h1 className="text-5xl sm:text-7xl">
               Welcome to <a className="text-fuchsia-400">Spolify</a>

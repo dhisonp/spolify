@@ -39,7 +39,7 @@ const GeneratePlaylist = () => {
     isAcoustic: false,
     isIndie: false,
     isLive: false,
-    size: 12,
+    size: 20,
     valence: 5,
   };
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
@@ -154,7 +154,7 @@ const GeneratePlaylist = () => {
       return;
     }
 
-    // To accomodate for missing values
+    // Accomodate values for the API
     const postData: FormValues = {
       title: formValues.title == "" ? "Spolify Untitled" : formValues.title,
       uris: formValues.uris,
@@ -162,7 +162,7 @@ const GeneratePlaylist = () => {
       isIndie: formValues.isIndie,
       isLive: formValues.isLive,
       size: formValues.size,
-      valence: formValues.valence,
+      valence: valenceEnabled ? formValues.valence / 10 : 0,
     };
     axios
       .post(server + "/recommend", postData, {
@@ -214,7 +214,7 @@ const GeneratePlaylist = () => {
     p1: `How do I use the app? `,
     p2: "1. Enter the artist or name of the track or it's Spotify link.",
     p3: 'e.g. "SZA - Good Days", "Easy by Mac Ayres", "Billie Eilish", etc.',
-    p4: "2. Feel free to play with some of the niche options, like 'Acoustic' or 'Unpopular'.",
+    p4: "2. Feel free to play with some of the niche options, like 'Acoustic' or 'Less Popular'.",
     p5: "3. 'Generate' will create a new playlist under your account and you'll be redirected!",
     p6: "Note: Albums and Artist recommendation in development.",
   };
@@ -286,8 +286,8 @@ const GeneratePlaylist = () => {
               </span>
               <input
                 type="range"
-                min="5"
-                max="30"
+                min="10"
+                max="100"
                 name="size"
                 value={formValues.size}
                 onChange={handleChange}
@@ -361,7 +361,7 @@ const GeneratePlaylist = () => {
               <Checkbox
                 name="isIndie"
                 checked={formValues.isIndie}
-                label="Unpopular/Indie"
+                label="Less Popular"
                 onChange={handleChange}
               />
             </div>
