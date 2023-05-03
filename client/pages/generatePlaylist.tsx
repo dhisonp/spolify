@@ -40,7 +40,7 @@ const GeneratePlaylist = () => {
     isIndie: false,
     isLive: false,
     size: 20,
-    valence: 5,
+    valence: 7,
   };
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
   const [displayHelper, toggleHelper] = useState(false);
@@ -115,38 +115,8 @@ const GeneratePlaylist = () => {
     }
   };
 
-  const debug = () => {
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      console.error("No access token found in local storage");
-      return;
-    }
-    axios
-      .post(server + "/recommend", formValues, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.error("Response status:", error.response.status);
-          console.error("Response data:", error.response.data);
-        }
-      });
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // const isValid = validate();
-    // if (!isValid) {
-    //   toggleAlert(true);
-    //   return;
-    // }
-
     // Check if user is logged in from the client side
     const token = localStorage.getItem("access_token");
     if (!token) {
@@ -174,17 +144,20 @@ const GeneratePlaylist = () => {
         if (response.data != null) {
           // window.open(response.data, "_blank")?.focus();
           const data = JSON.stringify(response.data);
-          router.push(
-            {
-              pathname: "/preview",
-              query: {
-                data: data,
-                title: postData.title,
+          setTimeout(() => {
+            // Timeout to avoid opening the link too early (replace with edge function)
+            router.push(
+              {
+                pathname: "/preview",
+                query: {
+                  data: data,
+                  title: postData.title,
+                },
               },
-            },
-            "/preview",
-            { shallow: true }
-          );
+              "/preview",
+              { shallow: true }
+            );
+          }, 2000);
         }
       })
       .catch((error) => {
@@ -229,7 +202,7 @@ const GeneratePlaylist = () => {
 
   const tooltips = {
     valence:
-      "A measure describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
+      "A measure describing the musical positiveness conveyed by a track. Tracks with high mood sound more positive (e.g. happy, cheerful, euphoric), while tracks with low mood sound more negative (e.g. sad, depressed, angry).",
   };
   const tooltipHelp =
     "Click on disabled properties to enable them and hover to view the tooltip.";
@@ -342,7 +315,7 @@ const GeneratePlaylist = () => {
               <span className="text-sm text-gray-400">{tooltipHelp}</span>
               <Slider
                 disabled={!valenceEnabled}
-                label="Valence"
+                label="Mood"
                 min={1}
                 max={10}
                 name="valence"

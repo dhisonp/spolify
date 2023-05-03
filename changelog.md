@@ -1,5 +1,12 @@
 # Changelog
 
+## a1.02
+
+-   Renamed "Valence" to "Mood"
+-   Minor UI adjustments
+-   Optimized server parameters and configurations for Mood
+-   Added timeout to redirect after playlist creation to avoid "Page not found"
+
 ## a1.01
 
 -   Updated landing page's FAQ
