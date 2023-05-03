@@ -138,7 +138,7 @@ const Dashboard = () => {
   };
 
   const helperText1 =
-    '"Auto Generate" automatically generates a playlist in your account based on your top items with pre determined settings.';
+    '"Spolify Curated" automatically generates a playlist in your account based on your top items with pre determined settings.';
   const helperText2 =
     'For more customization and tailoring, "Custom Recommend" is for you!';
 
@@ -169,16 +169,19 @@ const Dashboard = () => {
                 </h1>
               </div>
             </div>
-            <Divider className="my-4 w-5/6 sm:w-3/4"/>
-            <div className="mb-4 text-lg px-6 py-3 w-auto items-center justify-center flex flex-col gap-y-2 sm:flex-row sm:gap-y-0">
+            <Divider className="my-4 w-5/6 sm:w-3/4" />
+            <div className="mb-4 text-lg px-2 py-2 w-5/6 items-center justify-center flex flex-col gap-y-2 sm:flex-row sm:gap-y-0">
               <Button
                 onClick={handleLogOut}
                 className="border-red-700 hover:bg-red-700 text-red-700"
               >
                 &larr; Log Out
               </Button>
-              <Button onClick={handleOnClickAutoGenerate}>
-                Auto Recommend &rarr;
+              <Button
+                onClick={handleOnClickAutoGenerate}
+                // className="border-emerald-800 hover:bg-emerald-700 text-emerald-800"
+              >
+                Spolify Curated &rarr;
               </Button>
               <Button onClick={handleOnClickCustomGenerate}>
                 Custom Recommend &rarr;
@@ -186,8 +189,8 @@ const Dashboard = () => {
               {DEV_MODE && <Button onClick={handleOnClickSaved}>Debug</Button>}
             </div>
             <div className="justify-center items-center flex flex-col sm:w-4/6">
-              <span className="text-gray-500 mb-2">What's the difference?</span>
-              <HelpBox visible={true} className="mt-2">
+              <span className="text-gray-500 mb-2">What are these?</span>
+              <HelpBox visible={true} className="">
                 {helperText1} {helperText2}
               </HelpBox>
             </div>

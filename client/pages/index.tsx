@@ -25,13 +25,13 @@ const Home: NextPage = () => {
   };
 
   const descriptionWhatIs =
-    "Enhance your music discovery experience with Spolify– a barebones yet effective music recommender. Adjust your recommendation settings and create tailored playlists.";
+    "Elevate your music discovery with Spolify – a simple yet powerful music recommendation platform. Customize your recommendations and create personalized playlists to match your mood and preferences. Playlist power in your hands.";
 
   const descriptionStatus =
-    "This app is still under development, and Spotify requires the developer to register potential authenticated users. Please contact me if you're interested in testing the app.";
+    "Spolify currently requires permission from the developer to allow Spotify authentication, and hence access to the app. Please contact us if you're interested in testing the app. For more information on our technology stack and upcoming updates, please refer to the repository linked at the top of this page.";
 
   const descriptionDev =
-    "Our application is currently in its prototype/MVP stage and will continue to undergo development to further enhance its functionality and user experience. While the application's user interface boasts a minimalistic design, we have made sure it is visually pleasing while prioritizing functionality. For more information on our technology stack and upcoming updates, please refer to the repository linked at the top of this page.";
+    "While Spotify is known for its outstanding recommendation features, its rather simple usability may limit the full potential of its algorithm. Spolify, on the other hand, offers a user-friendly and intuitive interface that leverages Spotify's audio features, such as valence, liveness, and acousticness, to provide users with personalized recommendations. Whether you're in the mood for acoustic songs similar to John Mayer's or looking for a Giveon mood with less heartbreak stories, you got it. With Spolify, the power to customize your music experience is in your hands.";
 
   return (
     <div className="min-w-screen min-h-screen text-gray-800 bg-stone-100">
@@ -57,15 +57,17 @@ const Home: NextPage = () => {
         <div className="w-11/12 border-t-2 border-stone-600 mt-8" />
 
         <div className="flex flex-col flex-grow sm:flex-row py-8 px-6 sm:px-12">
-          <div className="text-left flex-1 sm:w-2/3 pb-6">
+          <div className="text-left sm:w-2/5 pb-6 flex-1 sm:flex-auto">
             <h1 className="font-serif bold text-4xl">FAQs and Notes</h1>
           </div>
-          <dl className="flex-1 sm:w-2/3">
+          <dl className="sm:w-3/5 flex-1 sm:flex-auto">
             <dt className="font-semi">What is Spolify?</dt>
             <dd className="">{descriptionWhatIs}</dd>
             <dt className="font-semi mt-4">Anything to know about?</dt>
             <dd className="">{descriptionStatus}</dd>
-            <dt className="font-semi mt-4">Developer and Technical Notes</dt>
+            <dt className="font-semi mt-4">
+              Why use Spolify instead of just Spotify?
+            </dt>
             <dd className="">{descriptionDev}</dd>
           </dl>
         </div>

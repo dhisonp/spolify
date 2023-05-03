@@ -31,7 +31,7 @@ const Slider: FC<Props> = ({
     <div className={`items-center flex mb-2 ${isTooltip}`} data-tip={dataTip}>
       <label
         onClick={toggle}
-        className="text-lg font-medium mr-4 cursor-pointer transition duration-100 hover:scale-105 hover:-translate-y-1"
+        className={`text-lg font-medium mr-4 cursor-pointer transition duration-100 hover:scale-105 hover:-translate-y-1  ${opacity}`}
       >
         {label}
       </label>
@@ -44,7 +44,7 @@ const Slider: FC<Props> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className={`cursor-pointer range range-xs accent-fuchsia-700 w-3/5  ${opacity}`}
+        className={`cursor-pointer range range-xs accent-fuchsia-700 w-3/5 ${opacity}`}
       />
     </div>
   );

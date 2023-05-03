@@ -214,9 +214,9 @@ const GeneratePlaylist = () => {
     p1: `How do I use the app? `,
     p2: "1. Enter the artist or name of the track or it's Spotify link.",
     p3: 'e.g. "SZA - Good Days", "Easy by Mac Ayres", "Billie Eilish", etc.',
-    p4: "2. Feel free to play with some of the niche options, like 'Acoustic' or 'Less Popular'.",
+    p4: "2. Feel free to play with some of the advanced options, like 'Acoustic' or 'Less Popular'.",
     p5: "3. 'Generate' will create a new playlist under your account and you'll be redirected!",
-    p6: "Note: Valence and Live options is undergoing temporary testing, so it won't work for now (version a1.0)",
+    p6: "Tips: Be careful with the advanced options– too much of them may limit recommendation results.",
   };
 
   const fieldPlaceholders = {
@@ -231,6 +231,8 @@ const GeneratePlaylist = () => {
     valence:
       "A measure describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
   };
+  const tooltipHelp =
+    "Click on disabled properties to enable them and hover to view the tooltip.";
 
   return (
     <div className=" bg-stone-100 text-gray-900 min-h-screen flex flex-col">
@@ -333,7 +335,11 @@ const GeneratePlaylist = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="flex flex-col mx-4" id="audioFeatures">
+            <div
+              className="flex flex-col mx-4 mt-4 sm:mt-0 gap-y-2 sm:gap-y-1 sm:max-w-xs mb-2"
+              id="audioFeatures"
+            >
+              <span className="text-sm text-gray-400">{tooltipHelp}</span>
               <Slider
                 disabled={!valenceEnabled}
                 label="Valence"
@@ -374,14 +380,14 @@ const GeneratePlaylist = () => {
               <span className="font-bold">&larr; Back</span>
             </button> */}
             <button
-              className="w-4/6 sm:w-auto mb-2 mx-2 border-2 py-3 sm:py-2 px-4 border-emerald-600 rounded-2xl hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
+              className="w-11/12 sm:w-auto mb-2 mx-2 border-2 py-3 sm:py-2 px-4 border-emerald-600 rounded-2xl hover:bg-emerald-600 hover:text-gray-100 transition duration-200"
               type="reset"
               onClick={handleReset}
             >
               <span className="font-bold">Reset</span>
             </button>
             <button
-              className="sm:w-auto w-5/6 mb-2 mx-2 border-2 py-3 sm:py-2 px-4 border-emerald-700 rounded-2xl bg-emerald-700 text-gray-100 transition duration-200 hover:border-emerald-300 hover:bg-emerald-300 hover:text-fuchsia-900"
+              className="w-11/12 sm:w-auto mb-2 mx-2 border-2 py-3 sm:py-2 px-4 border-emerald-700 rounded-2xl bg-emerald-700 text-gray-100 transition duration-200 hover:border-emerald-300 hover:bg-emerald-300 hover:text-fuchsia-900"
               type="submit"
             >
               <span className="font-bold">Generate &rarr;</span>
