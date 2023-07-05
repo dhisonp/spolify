@@ -1,8 +1,9 @@
+`/etc/nginx/sites-enabled/default`
 server {
     listen               443 ssl;
 
     ssl_certificate      /etc/ssl/certs/certificate.crt;
-    ssl_certificate_key  /etc/ssl/certs/server.key;
+    ssl_certificate_key  /etc/ssl/certs/private.key;
 
     server_name  147.182.184.245;
     access_log   /var/log/nginx/nginx.vhost.access.log;
@@ -13,5 +14,23 @@ server {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
+`/etc/nginx/conf.d/*.conf`
+server {
+    listen               80 ssl;
+
+    ssl                  on;
+    ssl_certificate      /etc/ssl/certs/certificate.crt;
+    ssl_certificate_key  /etc/ssl/certs/server.key;
+
+    server_name  147.182.184.245;
+    access_log   /var/log/nginx/nginx.vhost.access.log;
+    error_log    /var/log/nginx/nginx.vhost.error.log;
+
+    location     / {
+        root         /home/www/public_html/147.182.184.245/public/;
+        index        index.html;
     }
 }

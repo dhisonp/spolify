@@ -47,7 +47,7 @@ def recommend():
     # Conditional params
     if valence > 0:
         params["target_valence"]: valence
-        params["max_energy"]: 0.3
+        params["target_energy"]: valence
 
     results = sp.recommendations(**params)
     table = []
