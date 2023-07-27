@@ -21,6 +21,8 @@ const Home: NextPage = () => {
       })
       .catch((error) => {
         console.log(error);
+        alert("Error loging in– please try again!");
+        window.location.href = "/";
       });
   };
 

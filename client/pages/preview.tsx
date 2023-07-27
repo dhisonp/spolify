@@ -9,6 +9,7 @@ import Link from "next/link";
 import Alert from "@/components/Alert";
 import Dashboard from "./dashboard";
 import Error from "./error";
+import Loading from "@/components/Loading";
 
 interface Recommendation {
   artist: string;
@@ -29,16 +30,16 @@ const Preview = () => {
   const recommendations: Recommendation[] = JSON.parse(data);
 
   const [displayAlert, toggleAlert] = useState(false);
+  const [isLoading, toggleLoading] = useState(false);
 
+  // Timeout alert display
   useEffect(() => {
     let timeoutId: any;
-
     if (displayAlert) {
       timeoutId = setTimeout(() => {
         toggleAlert(false);
-      }, 5000);
+      }, 10000);
     }
-
     return () => {
       clearTimeout(timeoutId);
     };
@@ -49,6 +50,7 @@ const Preview = () => {
   };
 
   const handleCreate = () => {
+    toggleLoading(true);
     const server = process.env.SERVER_URL;
     const params = {
       title: title,
@@ -70,7 +72,8 @@ const Preview = () => {
       })
       .then((response) => {
         if (response.data != null) {
-          window.open(response.data, "_blank")?.focus();
+          openPlaylistInNewTab(response.data);
+          toggleLoading(false);
           toggleAlert(true);
         }
       })
@@ -82,6 +85,29 @@ const Preview = () => {
           console.error("Response data:", error.response.data);
         }
       });
+  };
+
+  const ExportBtn = () => {
+    return (
+      <div
+        onClick={handleCreate}
+        className="cursor-pointer px-6 py-6 border-fuchsia-800 border-2 flex text-left items-center justify-center group bg-fuchsia-300 text-fuchsia-800 focus:text-fuchsia-800 hover:bg-fuchsia-800 transition duration-200 hover:text-gray-100"
+      >
+        <BsArrowRightCircleFill
+          size="2em"
+          className="mr-4 group-hover:text-gray-100 transition duration-200"
+        />
+        <div className="flex flex-col">
+          <span className="text-lg font-medium">
+            Export{" "}
+            <span className="text-emerald-800 group-hover:text-gray-100 transition duration-200">
+              {title}
+            </span>
+          </span>
+          <span className="text-base">to Spotify &rarr;</span>
+        </div>
+      </div>
+    );
   };
 
   const displayTrack = (element: Recommendation) => {
@@ -117,6 +143,15 @@ const Preview = () => {
     router.back();
   };
 
+  const openPlaylistInNewTab = (url: string) => {
+    const win = window.open(url, "_blank");
+    if (win) {
+      win.focus();
+    } else {
+      alert("Please allow pop-ups for this website to view the playlist.");
+    }
+  };
+
   return (
     <div className=" bg-stone-100 mx-auto min-h-screen w-screen font-sans text-gray-800">
       <Head>
@@ -133,32 +168,25 @@ const Preview = () => {
       />
 
       <main className="flex flex-col justify-between items-center overflow-auto pt-8 px-2 sm:px-4 min-h-full">
-        <h2 className="text-2xl font-medium text-fuchsia-800 mb-8 py-6 px-6 text-center border-2 border-fuchsia-800 flex items-center">
-          <TbPlaylist size="1em" className="mr-4" />
-          {title}
-        </h2>
+        {isLoading ? <Loading /> : null}
+        <span
+          className="text-3xl font-medium text-fuchsia-800 mb-4 sm:mb-8 py-4 px-4 
+        text-center border-fuchsia-800 flex sm:flex-row flex-col items-center"
+        >
+          <TbPlaylist size="1em" className="mr-2" />
+          <span className="mr-0 mb-4 underline sm:mr-8 sm:mb-0">{title}</span>
+          <div className="text-base">
+            <ExportBtn />
+          </div>
+        </span>
+
         <ul className="flex flex-col w-full">
           {recommendations.map((element: Recommendation) =>
             displayTrack(element)
           )}
         </ul>
-        <div
-          onClick={handleCreate}
-          className="cursor-pointer m-12 px-6 py-6 border-fuchsia-800 border-2 flex text-left items-center justify-center group bg-fuchsia-300 text-fuchsia-800 focus:text-fuchsia-800 hover:bg-fuchsia-800 transition duration-200 hover:text-gray-100"
-        >
-          <BsArrowRightCircleFill
-            size="2em"
-            className="mr-4 group-hover:text-gray-100 transition duration-200"
-          />
-          <div className="flex flex-col">
-            <span className="text-lg font-medium">
-              Export{" "}
-              <span className="text-emerald-800 group-hover:text-gray-100 transition duration-200">
-                {title}
-              </span>
-            </span>
-            <span className="text-base">to Spotify &rarr;</span>
-          </div>
+        <div className="m-12">
+          <ExportBtn />
         </div>
       </main>
     </div>

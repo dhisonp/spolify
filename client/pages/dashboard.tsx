@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import HelpBox from "@/components/HelpBox";
 import Link from "next/link";
 import Divider from "@/components/Divider";
+import Loading from "@/components/Loading";
 
 interface userData {
   username: string;
@@ -18,6 +19,7 @@ const Dashboard = () => {
   const DEV_MODE = false;
 
   const router = useRouter();
+  const [isLoading, toggleLoading] = useState(false);
   const [displayHelper, toggleHelper] = useState(false);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [userData, setUserData] = useState<userData>({
@@ -46,7 +48,7 @@ const Dashboard = () => {
         console.log(data);
         setUserData({
           username: data.display_name,
-          imageUri: data.images[0].url,
+          imageUri: data.images[1].url,
         });
       })
       .catch((err) => {
@@ -84,6 +86,7 @@ const Dashboard = () => {
   };
 
   const handleOnClickAutoGenerate = () => {
+    toggleLoading(true);
     const token = localStorage.getItem("access_token");
     if (!token) {
       console.error("No access token found in local storage");
@@ -151,21 +154,24 @@ const Dashboard = () => {
       <Header />
 
       <main className="flex flex-col sm:flex-grow sm:justify-center">
+        {isLoading ? <Loading /> : null}
         {loggedIn && userData ? (
           <div className="flex flex-col items-center pt-4 sm:pt-0 justify-center">
             <div className="px-4 py-2 h-auto flex flex-row">
               <div className="mr-4">
-                <img
-                  className="w-28 h-28 rounded-full border border-stone-200"
-                  src={userData.imageUri}
-                />
+                {userData.imageUri ? (
+                  <img
+                    className="w-28 h-28 rounded-full border border-stone-200"
+                    src={userData.imageUri}
+                  />
+                ) : null}
               </div>
               <div className="flex flex-col justify-center">
                 <span className="text-gray-600 text-base sm:text-lg">
                   Welcome,{" "}
                 </span>
                 <h1 className="font-semi text-2xl sm:text-4xl text-stone-800">
-                  {userData.username}
+                  {userData.username != "" ? userData.username : "Spotify User"}
                 </h1>
               </div>
             </div>

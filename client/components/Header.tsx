@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Header = () => {
   // Move "version" to ENV or look for the best practice
-  const version = "a1.02";
+  const version = "1.03";
   return (
     <div className="flex text-md text-lg px-4 py-2 text-emerald-400 gap-x-4 bg-slate-900 w-screen">
       <Link

@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Alert from "@/components/Alert";
 import Checkbox from "@/components/Checkbox";
 import Slider from "@/components/Slider";
+import Loading from "@/components/Loading";
 
 interface FormValues {
   title: string;
@@ -46,6 +47,7 @@ const GeneratePlaylist = () => {
   const [displayHelper, toggleHelper] = useState(false);
   const [displayAlert, toggleAlert] = useState(false);
   const [valenceEnabled, toggleValence] = useState(false);
+  const [isLoading, toggleLoading] = useState(false);
 
   useEffect(() => {
     let timeoutId: any;
@@ -70,9 +72,6 @@ const GeneratePlaylist = () => {
 
   const validate = () => {
     var isValid = true;
-    if (formValues.title == "") {
-      isValid = false;
-    }
     if (
       formValues.uris.uri1 +
         formValues.uris.uri2 +
@@ -117,6 +116,11 @@ const GeneratePlaylist = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!validate()) {
+      alert("I need at least one entry!");
+      return;
+    }
+    toggleLoading(true);
     // Check if user is logged in from the client side
     const token = localStorage.getItem("access_token");
     if (!token) {
@@ -189,7 +193,7 @@ const GeneratePlaylist = () => {
     p3: 'e.g. "SZA - Good Days", "Easy by Mac Ayres", "Billie Eilish", etc.',
     p4: "2. Feel free to play with some of the advanced options, like 'Acoustic' or 'Less Popular'.",
     p5: "3. 'Generate' will create a new playlist under your account and you'll be redirected!",
-    p6: "Tips: Be careful with the advanced options– too much of them may limit recommendation results.",
+    p6: "Note: Be careful with the advanced options– too much of them may limit recommendation results.",
   };
 
   const fieldPlaceholders = {
@@ -205,7 +209,7 @@ const GeneratePlaylist = () => {
       "A measure describing the musical positiveness conveyed by a track. Tracks with high mood sound more positive (e.g. happy, cheerful, euphoric), while tracks with low mood sound more negative (e.g. sad, depressed, angry).",
   };
   const tooltipHelp =
-    "Click on disabled properties to enable them and hover to view the tooltip.";
+    "Click me to activate!";
 
   return (
     <div className=" bg-stone-100 text-gray-900 min-h-screen flex flex-col">
@@ -223,6 +227,7 @@ const GeneratePlaylist = () => {
       />
 
       <main className="flex flex-col sm:flex-grow sm:justify-center overflow-auto sm:pb-0 sm:pt-0 pt-4 pb-16">
+        {isLoading ? <Loading /> : null}
         <div className="text-gray-500 mb-3 text-left px-4 flex-col flex items-center">
           {/* <button onClick={handleGuide} className="p-2 mt-2"> */}
           <p className="text-gray-500 text-base hover:text-gray-400 p-2 mt-2">
@@ -235,7 +240,7 @@ const GeneratePlaylist = () => {
               <p>{operationGuideString.p3}</p>
               <p>{operationGuideString.p4}</p>
               <p>{operationGuideString.p5}</p>
-              <span className="text-sm text-gray-400">
+              <span className="text-gray-400">
                 {operationGuideString.p6}
               </span>
             </div>
