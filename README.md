@@ -15,10 +15,10 @@ Our application is currently in its prototype/MVP stage and will continue to und
 ## Screenshots
 
 <span><i>UI/UX are not final.</i></span>
-![Screenshot 1](./assets/spss1.png)
-![Screenshot 1](./assets/spss2.png)
-![Screenshot 1](./assets/spss3.png)
-![Screenshot 1](./assets/spss4.png)
+![Screenshot 1](./assets/reclify-demo-2.png)
+![Screenshot 1](./assets/reclify-demo-3.jpg)
+![Screenshot 1](./assets/reclify-demo-4.png)
+![Screenshot 1](./assets/reclify-demo-5.png)
 
 ## Tech Stack
 

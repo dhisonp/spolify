@@ -14,7 +14,7 @@ Commands:
 - docker build --platform linux/amd64 -t sp-be .
 - docker tag sp-be dhisonp/sp-be
 - docker push dhisonp/sp-be
-- ssh root@147.182.184.245
+- ssh root@147.182.184.245 (PW: Audition PW)
 - docker ps
 - docker stop <id>
 - docker pull dhisonp/sp-be
