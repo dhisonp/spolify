@@ -11,7 +11,7 @@ const Login = () => {
   return (
     <div className=" bg-stone-100 mx-auto">
       <Head>
-        <title>Spolify - Login</title>
+        <title>Reclify - Login</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

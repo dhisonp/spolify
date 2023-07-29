@@ -9,7 +9,7 @@ Notes on first time Dockerizing Flask and Spotipy API:
 3.  You do NOT need to install venv and all that. Just install the dependencies from
     requirements.txt directly to the image/server.
 
-
+Note: Be sure to adjust environment variables in .env
 Commands:
 - docker build --platform linux/amd64 -t sp-be .
 - docker tag sp-be dhisonp/sp-be

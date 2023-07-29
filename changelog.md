@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.04
+-   Changed app name and all references from Spolify to Reclify
+
+## 1.03
+-   UI improvements and bug fixes
+
 ## a1.02
 
 -   Renamed "Valence" to "Mood"

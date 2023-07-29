@@ -130,7 +130,7 @@ const GeneratePlaylist = () => {
 
     // Accomodate values for the API
     const postData: FormValues = {
-      title: formValues.title == "" ? "Spolify Untitled" : formValues.title,
+      title: formValues.title == "" ? "Reclify Untitled" : formValues.title,
       uris: formValues.uris,
       isAcoustic: formValues.isAcoustic,
       isIndie: formValues.isIndie,

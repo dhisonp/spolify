@@ -20,7 +20,7 @@ def create_playlist():
     sp = spotipy.Spotify(auth=auth_token)
 
     user_id = sp.me()['id']
-    playlist_name = "Spolify - " + sp.me()['display_name']
+    playlist_name = "Reclify - " + sp.me()['display_name']
     is_public = True
     is_collaborative = False
     created, result = None, None
@@ -31,7 +31,7 @@ def create_playlist():
     seeds = json.loads(auto_recommend().get_data(as_text=True))
     seeds = [item['id'] for item in seeds]
 
-    # TODO Fix -> description = 'Playlist created with Spolify.'
+    # TODO Fix -> description = 'Playlist created with Reclify.'
     try:  # Create a new playlist
         created = sp.user_playlist_create(user_id, playlist_name,
                                           public=is_public, collaborative=is_collaborative)

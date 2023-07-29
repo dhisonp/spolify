@@ -7,7 +7,7 @@ const Error = () => {
   return (
     <div className="min-w-screen min-h-screen text-gray-800 bg-stone-100 flex flex-col">
       <Head>
-        <title>Spolify</title>
+        <title>Reclify</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />

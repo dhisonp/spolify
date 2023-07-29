@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Header = () => {
   // Move "version" to ENV or look for the best practice
-  const version = "1.03";
+  const version = "1.04";
   return (
     <div className="flex text-md text-lg px-4 py-2 text-emerald-400 gap-x-4 bg-slate-900 w-screen">
       <Link
@@ -25,7 +25,7 @@ const Header = () => {
       </Link>
       <Link href="/" className=" ml-auto hidden sm:block">
         <span className="text-slate-500">
-          Spolify <span className="text-slate-600">version {version} by </span>
+          Reclify <span className="text-slate-600">version {version} by </span>
           Dhison Padma
         </span>
       </Link>

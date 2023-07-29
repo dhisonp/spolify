@@ -38,13 +38,13 @@ def create_playlist():
     # seeds = seeds.json()
     seeds = [item['id'] for item in seeds]
 
-    # TODO Fix -> description = 'Playlist created with Spolify.'
+    # TODO Fix -> description = 'Playlist created with Reclify.'
     try:  # Create a new playlist
         created = sp.user_playlist_create(user_id,
                                           playlist_name,
                                           public=is_public,
                                           collaborative=is_collaborative,
-                                          description="Created with SpoLify.")
+                                          description="Created with Reclify.")
     except SpotifyException as err:
         error(err)
     try:

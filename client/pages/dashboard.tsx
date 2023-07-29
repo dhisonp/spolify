@@ -107,7 +107,7 @@ const Dashboard = () => {
               pathname: "/preview",
               query: {
                 data: data,
-                title: "Spolify Curated",
+                title: "Reclify Curated",
               },
             },
             "/preview",
@@ -141,14 +141,14 @@ const Dashboard = () => {
   };
 
   const helperText1 =
-    '"Spolify Curated" automatically generates a playlist in your account based on your top items with pre determined settings.';
+    '"Reclify Curated" automatically generates a playlist in your account based on your top items with pre determined settings.';
   const helperText2 =
     'For more customization and tailoring, "Custom Recommend" is for you!';
 
   return (
     <div className="flex flex-col bg-stone-100 font-sans text-gray-900 min-h-screen">
       <Head>
-        <title>Spolify - {userData.username}</title>
+        <title>Reclify - {userData.username}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
@@ -187,7 +187,7 @@ const Dashboard = () => {
                 onClick={handleOnClickAutoGenerate}
                 // className="border-emerald-800 hover:bg-emerald-700 text-emerald-800"
               >
-                Spolify Curated &rarr;
+                Reclify Curated &rarr;
               </Button>
               <Button onClick={handleOnClickCustomGenerate}>
                 Custom Recommend &rarr;

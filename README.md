@@ -1,8 +1,8 @@
-# Spolify - Playlist Generator and Song Recommender
+# Reclify - Playlist Generator and Song Recommender
 
-### What is Spolify?
+### What is Reclify?
 
-Enhance your music discovery experience with Spolify– a barebones yet effective music recommender. Adjust your recommendation settings and create tailored playlists.
+Enhance your music discovery experience with Reclify a barebones yet effective music recommender. Adjust your recommendation settings and create tailored playlists.
 
 ### Anything to know about?
 
